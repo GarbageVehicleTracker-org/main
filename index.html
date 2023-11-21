@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #main-section {
+      flex: 0.7;
+      overflow-y: auto;
+      padding: 10px;
+      width: 95%;
+    }
+
+    #bottom-buttons {
+      flex: 0.3;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      width: 95%;
+    }
+
+    .card {
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin: 10px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 95%;
+    }
+
+    .dropdown-container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .submit-btn {
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    button {
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+  </style>
+  <title>Dynamic Cards Example</title>
+</head>
+<body>
+  <div id="main-section">
+    <!-- Cards will be dynamically added here -->
+  </div>
+  <div id="bottom-buttons">
+    <button onclick="dummyButtonClick()">Add Vehicle</button>
+    <button onclick="dummyButtonClick()">Add Driver</button>
+  </div>
+
+  <script>
+    // Fetch driver data from the API
+    fetch("https://garbage-collect-backend.onrender.com/get-driver")
+      .then(response => response.json())
+      .then(driverData => {
+        const mainSection = document.getElementById("main-section");
+
+        // Fetch vehicle data from the API
+        fetch("https://garbage-collect-backend.onrender.com/get-vehicle")
+          .then(response => response.json())
+          .then(vehicleData => {
+            // Iterate through the vehicle data and create cards
+            vehicleData.forEach(vehicle => {
+              const card = createCard(vehicle, driverData);
+              mainSection.appendChild(card);
+            });
+          })
+          .catch(error => console.error("Error fetching vehicle data:", error));
+      })
+      .catch(error => console.error("Error fetching driver data:", error));
+
+    // Function to create a card
+    function createCard(vehicle, driverData) {
+      const card = document.createElement("div");
+      card.classList.add("card");
+
+      const idText = document.createElement("div");
+      idText.textContent = vehicle.id;
+      card.appendChild(idText);
+
+      const dropdownContainer = document.createElement("div");
+      dropdownContainer.classList.add("dropdown-container");
+
+      // Create the first dropdown and populate it with driver names
+      const dropdown1 = createDropdown("Driver", driverData.map(driver => driver.name));
+      dropdownContainer.appendChild(dropdown1);
+
+      // Create the second dropdown with static options
+      const dropdown2 = createDropdown("Options", ["Option 1", "Option 2"]);
+      dropdownContainer.appendChild(dropdown2);
+
+      card.appendChild(dropdownContainer);
+
+      const submitButton = document.createElement("button");
+      submitButton.textContent = "Submit";
+      submitButton.classList.add("submit-btn");
+
+      // Attach a click event listener to the submit button
+      submitButton.addEventListener("click", () => {
+        // Implement the logic to send data to the API here
+        console.log("Submitting data:", {
+          id: vehicle.id,
+          driver: dropdown1.value,
+          option: dropdown2.value,
+        });
+      });
+
+      card.appendChild(submitButton);
+
+      return card;
+    }
+
+    // Function to create a dropdown
+    function createDropdown(label, options) {
+      const dropdown = document.createElement("select");
+      const labelElement = document.createElement("label");
+
+      labelElement.textContent = label;
+      labelElement.setAttribute("for", label.toLowerCase().replace(/\s/g, "-"));
+
+      dropdown.id = label.toLowerCase().replace(/\s/g, "-");
+
+      options.forEach(option => {
+        const optionElement = document.createElement("option");
+        optionElement.value = option;
+        optionElement.textContent = option;
+        dropdown.appendChild(optionElement);
+      });
+
+      return dropdown;
+    }
+
+    // Dummy function for button clicks
+    function dummyButtonClick() {
+      alert("Button clicked (dummy action)!");
+    }
+  </script>
+</body>
+</html>

@@ -79,24 +79,30 @@
     fetch("https://garbage-collect-backend.onrender.com/get-driver")
       .then(response => response.json())
       .then(driverData => {
-        const mainSection = document.getElementById("main-section");
-
         // Fetch vehicle data from the API
         fetch("https://garbage-collect-backend.onrender.com/get-vehicle")
           .then(response => response.json())
           .then(vehicleData => {
-            // Iterate through the vehicle data and create cards
-            vehicleData.forEach(vehicle => {
-              const card = createCard(vehicle, driverData);
-              mainSection.appendChild(card);
-            });
+            // Fetch area data from the API
+            fetch("https://garbage-collect-backend.onrender.com/get-all-areas")
+              .then(response => response.json())
+              .then(areaData => {
+                const mainSection = document.getElementById("main-section");
+
+                // Iterate through the vehicle data and create cards
+                vehicleData.forEach(vehicle => {
+                  const card = createCard(vehicle, driverData, areaData);
+                  mainSection.appendChild(card);
+                });
+              })
+              .catch(error => console.error("Error fetching area data:", error));
           })
           .catch(error => console.error("Error fetching vehicle data:", error));
       })
       .catch(error => console.error("Error fetching driver data:", error));
 
     // Function to create a card
-    function createCard(vehicle, driverData) {
+    function createCard(vehicle, driverData, areaData) {
       const card = document.createElement("div");
       card.classList.add("card");
 
@@ -111,8 +117,8 @@
       const dropdown1 = createDropdown("Driver", driverData.map(driver => driver.name));
       dropdownContainer.appendChild(dropdown1);
 
-      // Create the second dropdown with static options
-      const dropdown2 = createDropdown("Options", ["Option 1", "Option 2"]);
+      // Create the second dropdown and populate it with area names
+      const dropdown2 = createDropdown("Area", areaData);
       dropdownContainer.appendChild(dropdown2);
 
       card.appendChild(dropdownContainer);
@@ -127,7 +133,7 @@
         console.log("Submitting data:", {
           id: vehicle.id,
           driver: dropdown1.value,
-          option: dropdown2.value,
+          area: dropdown2.value,
         });
       });
 

@@ -42,6 +42,7 @@ function createCard(vehicle, driverData, areaData) {
   const cardSubmitButton = document.createElement("button");
   cardSubmitButton.textContent = "Submit";
   cardSubmitButton.classList.add("submit-btn");
+  cardSubmitButton.disabled = true; // Disable the button by default
 
   // Attach a click event listener to the submit button
   cardSubmitButton.addEventListener("click", () => {
@@ -69,6 +70,21 @@ function createCard(vehicle, driverData, areaData) {
   submitSection.appendChild(cardSubmitButton);
   card.appendChild(submitSection);
 
+  // Event listener for dropdown1
+  dropdown1.addEventListener("change", () => {
+    updateSubmitButtonStatus();
+  });
+
+  // Event listener for dropdown2
+  dropdown2.addEventListener("change", () => {
+    updateSubmitButtonStatus();
+  });
+
+  // Function to update the submit button status
+  function updateSubmitButtonStatus() {
+    cardSubmitButton.disabled = !(dropdown1.value && dropdown2.value);
+  }
+
   return card;
 }
 
@@ -81,6 +97,12 @@ function createDropdown(label, options) {
   labelElement.setAttribute("for", label.toLowerCase().replace(/\s/g, "-"));
 
   dropdown.id = label.toLowerCase().replace(/\s/g, "-");
+
+  // Add an initial blank option
+  const blankOption = document.createElement("option");
+  blankOption.value = ""; // Set value as appropriate
+  blankOption.textContent = ""; // Set text content as appropriate
+  dropdown.appendChild(blankOption);
 
   options.forEach(option => {
     const optionElement = document.createElement("option");

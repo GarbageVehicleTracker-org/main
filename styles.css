@@ -29,14 +29,27 @@ body {
     padding: 10px;
     margin: 10px 0;
     display: flex;
+    flex-direction: row; /* Change flex-direction to column */
+    align-items: center; /* Align items to the center */
+    width: 95%;
+  }
+  
+  .card-section {
+    flex: 1;
+    display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 95%;
+    width: 100%; /* Adjust the width to take the full space */
+  }
+  
+  /* Adjust the width of the dropdowns to share the available space equally */
+  .card-section .dropdown-container {
+    width: 50%;
   }
   
   .dropdown-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
   }
   
   .submit-btn {

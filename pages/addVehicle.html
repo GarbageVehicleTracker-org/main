@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/addVehicle.css">
+    <title>Capacity Tracker</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Add Vehicle</h1>
+
+        <label for="noInput">Vehicle ID</label>
+        <input type="text" id="noInput" placeholder="Enter an id">
+
+        <label for="modelInput">Registration No.</label>
+        <input type="text" id="modelInput" placeholder="Enter the registration no of the car">
+
+        <label for="sizeInput">Size (Small, Medium, Large) </label>
+        <input type="text" id="sizeInput" placeholder="Enter the size of the car">
+
+        <label for="capacityInput">Capacity (Tons)</label>
+        <input type="number" id="capacityInput" placeholder="Enter capacity">
+
+        <div class="submit">
+            <button onclick="saveData()">Save</button>
+        </div>
+    </div>
+
+    <script src="./js/addVehicle.js"></script>
+</body>
+</html>

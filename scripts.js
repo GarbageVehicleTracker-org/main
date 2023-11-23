@@ -187,3 +187,19 @@ fetch("https://garbage-collect-backend.onrender.com/get-driver")
       .catch(error => console.error("Error fetching vehicle data:", error));
   })
   .catch(error => console.error("Error fetching driver data:", error));
+
+  document.getElementById('addDriver').addEventListener('click', function() {
+    // Specify the URL you want to redirect to
+    var targetUrl = "./pages/addDriver.html";
+
+    // Redirect to the specified URL
+    window.location.href = targetUrl;
+  });
+
+  document.getElementById('addVehicle').addEventListener('click', function() {
+    // Specify the URL you want to redirect to
+    var targetUrl = "./pages/addVehicle.html";
+
+    // Redirect to the specified URL
+    window.location.href = targetUrl;
+  });

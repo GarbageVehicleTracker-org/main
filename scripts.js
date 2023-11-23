@@ -1,17 +1,14 @@
-// Declare submitButton outside createCard function
-let submitButton;
-
 // Function to create a card
-function createCard(vehicle, driverData, areaData) {
+function createCard(area, vehicleData, driverData) {
   const card = document.createElement("div");
   card.classList.add("card");
 
-  // First section: Vehicle ID
+  // First section: Area Name
   const idSection = document.createElement("div");
   idSection.classList.add("card-section");
   const idText = document.createElement("div");
-  idText.classList.add("card-id"); // Add this class for identifying vehicle ID
-  idText.textContent = `Vehicle ID: ${vehicle.id}`;
+  idText.classList.add("card-id"); // Add this class for identifying area name
+  idText.textContent = `Area: ${area.name}`; // Display area name
   idSection.appendChild(idText);
   card.appendChild(idSection);
 
@@ -22,14 +19,14 @@ function createCard(vehicle, driverData, areaData) {
   const dropdownContainer = document.createElement("div");
   dropdownContainer.classList.add("dropdown-container");
 
-  // Create the first dropdown and populate it with driver names
-  const dropdown1 = createDropdown("Driver", driverData.map(driver => driver.name));
-  dropdown1.classList.add("driver-dropdown"); // Add this class for identifying driver dropdown
+  // Create the first dropdown and populate it with vehicle IDs
+  const dropdown1 = createDropdown("Vehicle", vehicleData.map(vehicle => vehicle.id));
+  dropdown1.classList.add("vehicle-dropdown"); // Add this class for identifying vehicle dropdown
   dropdownContainer.appendChild(dropdown1);
 
-  // Create the second dropdown and populate it with area names
-  const dropdown2 = createDropdown("Area", areaData);
-  dropdown2.classList.add("area-dropdown"); // Add this class for identifying area dropdown
+  // Create the second dropdown and populate it with driver names
+  const dropdown2 = createDropdown("Driver", driverData.map(driver => driver.name));
+  dropdown2.classList.add("driver-dropdown"); // Add this class for identifying driver dropdown
   dropdownContainer.appendChild(dropdown2);
 
   dropdownSection.appendChild(dropdownContainer);
@@ -46,15 +43,29 @@ function createCard(vehicle, driverData, areaData) {
 
   // Attach a click event listener to the submit button
   cardSubmitButton.addEventListener("click", () => {
-    // Implement the logic to send data to the API here
-    console.log("Submitting data:", {
-      id: vehicle.id,
-      driver: dropdown1.value,
-      area: dropdown2.value,
-    });
+    // Implement the logic to send data to the assigned-work API here
+    const requestData = {
+      areaId: area.areaId || area.name, // Use areaId if available, otherwise use name
+      vehicleId: dropdown1.value,
+      driverId: getDriverIdByName(driverData, dropdown2.value),
+    };
+
+
+    fetch("https://garbage-collect-backend.onrender.com/assign-work", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestData),
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log("Response from assigned-work API:", data);
+      })
+      .catch(error => console.error("Error submitting data:", error));
 
     // Disable selected options on other cards
-    disableSelectedOptions(vehicle.id, dropdown1.value, dropdown2.value);
+    disableSelectedOptions(area.areaId || area.name, dropdown1.value, dropdown2.value);
 
     // Disable submit button and dropdowns for the clicked card
     cardSubmitButton.disabled = true;
@@ -114,22 +125,28 @@ function createDropdown(label, options) {
   return dropdown;
 }
 
+// Function to get driver ID by name
+function getDriverIdByName(driverData, driverName) {
+  const selectedDriver = driverData.find(driver => driver.name === driverName);
+  return selectedDriver ? selectedDriver.driverId : '';
+}
+
 // Function to disable selected options on other cards
-function disableSelectedOptions(vehicleId, selectedDriver, selectedArea) {
+function disableSelectedOptions(area, selectedVehicle, selectedDriver) {
   const cards = document.querySelectorAll('.card');
 
   cards.forEach(card => {
     // Skip the card that was just submitted
-    if (card.querySelector('.card-id').textContent === `Vehicle ID: ${vehicleId}`) {
+    if (card.querySelector('.card-id').textContent === `Area: ${area}`) {
       return;
     }
 
-    const dropdown1 = card.querySelector('.driver-dropdown');
-    const dropdown2 = card.querySelector('.area-dropdown');
+    const dropdown1 = card.querySelector('.vehicle-dropdown');
+    const dropdown2 = card.querySelector('.driver-dropdown');
 
-    // Disable selected driver and area options on other cards
-    disableOption(dropdown1, selectedDriver);
-    disableOption(dropdown2, selectedArea);
+    // Disable selected vehicle and driver options on other cards
+    disableOption(dropdown1, selectedVehicle);
+    disableOption(dropdown2, selectedDriver);
   });
 }
 
@@ -159,9 +176,9 @@ fetch("https://garbage-collect-backend.onrender.com/get-driver")
           .then(areaData => {
             const mainSection = document.getElementById("main-section");
 
-            // Iterate through the vehicle data and create cards
-            vehicleData.forEach(vehicle => {
-              const card = createCard(vehicle, driverData, areaData);
+            // Iterate through the area data and create cards
+            areaData.forEach(area => {
+              const card = createCard(area, vehicleData, driverData);
               mainSection.appendChild(card);
             });
           })

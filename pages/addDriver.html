@@ -7,10 +7,10 @@
   <title>Add Driver</title>
 </head>
 <body>
-  <section class="container">
-    <header>Add Driver</header>
+  <div class="container">
+    <h1>Add Driver</h1>
 
-    <form class="form" aria-label="Add Driver Form" id="driverForm">
+    <div class="form" aria-label="Add Driver Form" id="driverForm">
       <div class="input-box">
         <label for="fullName">Full Name</label>
         <input type="text" id="fullName" name="fullName" required placeholder="Enter full name">
@@ -24,7 +24,7 @@
 
         <div class="input-box">
           <label for="aadharNumber">Aadhar Number</label>
-          <input type="number" id="aadharNumber" name="id" required placeholder="Enter aadhar number">
+          <input type="number" id="aadharNumber" name="id" required placeholder="Enter Aadhar number">
         </div>
       </div>
 
@@ -55,9 +55,11 @@
         </div>
       </div>
 
-      <button type="button" onclick="submitForm()">Submit Driver Information</button>
-    </form>
-  </section>
+      <div class="submit">
+        <button onclick="submitForm()">Submit Driver Information</button>
+      </div>
+    </div>
+  </div>
 
   <script src="./js/addDriver.js"></script>
 </body>

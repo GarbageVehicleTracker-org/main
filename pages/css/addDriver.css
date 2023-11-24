@@ -1,107 +1,96 @@
+/* Common CSS */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
 .container {
-    position: relative;
-    max-width: 800px;
-    width: 90%;
-    background: #ccc;
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-  }
-  
-  .container header {
-    font-size: 1.2rem;
-    color: #000;
-    font-weight: 600;
-    text-align: center;
-  }
-  
-  .container .form {
-    margin-top: 15px;
-  }
-  
-  .form .input-box {
-    width: 90%;
-    margin-top: 10px;
-  }
-  
-  .input-box label {
-    color: #000;
-  }
-  
-  .form .input-box input,
-  .form .select-box select {
-    position: relative;
-    height: 35px;
-    width: 90%;
-    outline: none;
-    font-size: 1rem;
-    color: #808280;
-    margin-top: 5px;
-    border: 1px solid #ee4e34;
-    border-radius: 6px;
-    padding: 0 15px;
-    background: #fcedda;
-  }
-  
-  .input-box input:focus {
-    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
-  }
-  
-  .form .column1 {
-    display: flex;
-    width: 90%;
-    column-gap: 25px;
-    margin-top: 10px;
-  }
-  
-  .input-box.age {
-    width: 30%;
-    margin-top: 10px;
-  }
-  
-  .form .gender-box {
-    margin-top: 10px;
-  }
-  
-  .form .gender-option,
-  .form .gender {
-    display: flex;
-    align-items: center;
-    column-gap: 25px;
-    flex-wrap: wrap;
-  }
-  
-  .form .gender {
-    column-gap: 5px;
-  }
-  
-  .gender input {
-    accent-color: #ee4e34;
-  }
-  
-  .form .gender input,
-  .form .gender label {
-    cursor: pointer;
-  }
-  
-  .gender label {
-    color: #000;
-  }
-  
-  .form button {
-    height: 40px;
-    width: 90%;
-    color: #000;
-    font-size: 1rem;
-    font-weight: 400;
-    margin-top: 15px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    background: #ee4e34;
-  }
-  
-  .form button:hover {
-    background: #ee3e34;
-  }
+  min-width: 600px;
+  max-width: 601px;
+  margin: 50px auto;
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  color: rgb(14, 15, 14);
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  user-select: none;
+  color: #333;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 16px;
+  border: 2px solid rgb(83, 202, 74);
+  border-radius: 5px;
+  box-sizing: border-box;
+  background: rgba(50, 196, 101, 0.1);
+}
+
+input:focus {
+  outline: none;
+}
+
+.form .gender-box {
+  margin-top: 10px;
+}
+
+.form .gender-option,
+.form .gender {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.form .gender {
+  flex-direction: column;
+  gap: 5px;
+}
+
+.gender input {
+  accent-color: #170895;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.form .gender input,
+.form .gender label {
+  cursor: pointer;
+}
+
+.gender label {
+  color: #000;
+}
+
+button {
+  background-color: rgb(83, 202, 74);
+  color: white;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+button:hover {
+  background-color: rgb(83, 202, 74);
+  transition: 0.5s;
+}
+
+.submit {
+  display: flex;
+  justify-content: center;
+}

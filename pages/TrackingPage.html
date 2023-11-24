@@ -44,14 +44,14 @@
 
         .track {
             width: 50%;
-            height: 100%;
             border: 1px solid black;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
             gap: 20px;
             overflow-y: scroll;
+            max-height: 80vh; /* Added max-height to limit height */
+            padding: 30px 0px;
         }
 
         .card {
@@ -71,8 +71,8 @@
         }
 
         .circle {
-            width: 100px;
-            height: 100px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -82,11 +82,11 @@
 
         /* Added style for the 'Arrived' and 'Departed' status */
         .arrived {
-            background-color: green;
+            background-color: transparent;
         }
 
         .departed {
-            background-color: red;
+            background-color: transparent;
         }
     </style>
 </head>
@@ -96,55 +96,66 @@
         <h1>BUIE Garbage Vehicle Tracker</h1>
         <section class="container">
             <div class="map">WIP</div>
-            <div class="track">
-                <!-- Sample data for tracking -->
-                <div class="card">
-                    <div class="status">
-                        <span class="arrived">Not Arrived Yet</span>
-                        <span class="departed">Not Departed Yet</span>
-                    </div>
-                    <div class="circle"></div>
-                </div>
-                <div class="card">
-                    <div class="status">
-                        <span class="arrived">Not Arrived Yet</span>
-                        <span class="departed">Not Departed Yet</span>
-                    </div>
-                    <div class="circle"></div>
-                </div>
-                <div class="card">
-                    <div class="status">
-                        <span class="arrived">Not Arrived Yet</span>
-                        <span class="departed">Not Departed Yet</span>
-                    </div>
-                    <div class="circle"></div>
-                </div>
-                <div class="card">
-                    <div class="status">
-                        <span class="arrived">Not Arrived Yet</span>
-                        <span class="departed">Not Departed Yet</span>
-                    </div>
-                    <div class="circle"></div>
-                </div>
-                <div class="card">
-                    <div class="status">
-                        <span class="arrived">Not Arrived Yet</span>
-                        <span class="departed">Not Departed Yet</span>
-                    </div>
-                    <div class="circle"></div>
-                </div>
+            <div class="track" id="trackContainer">
+                <!-- Cards will be dynamically added here -->
             </div>
         </section>
     </section>
 
     <script>
+        // Fetch card count from the API
+        fetch('https://garbage-collect-backend.onrender.com/get-dustbin-count/4241')
+            .then(response => response.json())
+            .then(data => {
+                // Dynamically add cards based on the API response
+                let cardCount = data.dustbinCount;
+                let trackContainer = document.getElementById('trackContainer');
+
+                for (let i = 0; i < cardCount; i++) {
+                    // Create a card element
+                    let card = document.createElement('div');
+                    card.className = 'card';
+
+                    // Create status elements
+                    let statusContainer = document.createElement('div');
+                    statusContainer.className = 'status';
+
+                    let arrivedStatus = document.createElement('span');
+                    arrivedStatus.className = 'arrived';
+                    arrivedStatus.textContent = 'Not Arrived Yet';
+
+                    let departedStatus = document.createElement('span');
+                    departedStatus.className = 'departed';
+                    departedStatus.textContent = 'Not Departed Yet';
+
+                    statusContainer.appendChild(arrivedStatus);
+                    statusContainer.appendChild(departedStatus);
+
+                    // Create circle element
+                    let circle = document.createElement('div');
+                    circle.className = 'circle';
+
+                    // Append status and circle elements to the card
+                    card.appendChild(statusContainer);
+                    card.appendChild(circle);
+
+                    // Append the card to the track container
+                    trackContainer.appendChild(card);
+                }
+
+                // Simulating order progress
+                let currentProgress = 5;
+                updateOrderProgress(currentProgress);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+
         // Simulating order progress
         function updateOrderProgress(progress) {
             // Select all circles, arrived, and departed spans
             let circles = document.querySelectorAll('.circle');
             let arrivedStatuses = document.querySelectorAll('.arrived');
             let departedStatuses = document.querySelectorAll('.departed');
-    
+
             // Reset styles for all circles and statuses
             circles.forEach(circle => circle.style.backgroundColor = 'gray');
             arrivedStatuses.forEach(status => {
@@ -155,13 +166,13 @@
                 status.textContent = 'Not Departed Yet';
                 status.classList.remove('departed');
             });
-    
+
             // Set styles based on progress
             for (let i = 0; i < progress; i++) {
                 let circle = circles[i];
                 let arrivedStatus = arrivedStatuses[i];
                 let departureStatus = departedStatuses[i];
-    
+
                 arrivedStatus.textContent = 'Arrived';
                 arrivedStatus.classList.add('arrived');
                 departureStatus.textContent = 'Departed';
@@ -169,10 +180,6 @@
                 circle.style.backgroundColor = 'green';
             }
         }
-    
-        // Example: Set the order progress to 1 (you can replace this with the actual progress)
-        let currentProgress = 4;
-        updateOrderProgress(currentProgress);
     </script>
 </body>
 

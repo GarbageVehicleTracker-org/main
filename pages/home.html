@@ -22,108 +22,96 @@
             <section class="notifications">
                 <h3 class="noti">Vehicle no wb68A8985 arrived dustbin no 1</h3>
             </section>
-            <section class="notifications">
-                <h3 class="noti">Vehicle no wb68A8985 arrived dustbin no 1</h3>
-            </section>
-            <section class="notifications">
-                <h3 class="noti">Vehicle no wb68A8985 arrived dustbin no 1</h3>
-            </section>
-            <section class="notifications">
-                <h3 class="noti">Vehicle no wb68A8985 arrived dustbin no 1</h3>
-            </section>
-            <section class="notifications">
-                <h3 class="noti">Vehicle no wb68A8985 arrived dustbin no 1</h3>
-            </section>
-            <section class="notifications">
-                <h3 class="noti">Vehicle no wb68A8985 arrived dustbin no 1</h3>
-            </section>
-            <section class="notifications">
-                <h3 class="noti">Vehicle no wb68A8985 arrived dustbin no 1</h3>
-            </section>
         </section>
-        <section class="profiles">
-            <section class="drivers">
-                <img src="photo.jpg" alt="" id="profile-photo">
-                <div class="driver-info">
-                    <p>No wb68A8985</p>
-                    <p>Priyam Kundu</p>
-                </div>
-                <button type="submit" id="show-btn">Show</button>
-            </section>
-            <section class="drivers">
-                <img src="photo.jpg" alt="" id="profile-photo">
-                <div class="driver-info">
-                    <p>No wb68A8985</p>
-                    <p>Priyam Kundu</p>
-                </div>
-                <button type="submit" id="show-btn">Show</button>
-            </section>
-            <section class="drivers">
-                <img src="photo.jpg" alt="" id="profile-photo">
-                <div class="driver-info">
-                    <p>No wb68A8985</p>
-                    <p>Priyam Kundu</p>
-                </div>
-                <button type="submit" id="show-btn">Show</button>
-            </section>
-            <section class="drivers">
-                <img src="photo.jpg" alt="" id="profile-photo">
-                <div class="driver-info">
-                    <p>No wb68A8985</p>
-                    <p>Priyam Kundu</p>
-                </div>
-                <button type="submit" id="show-btn">Show</button>
-            </section>
-            <section class="drivers">
-                <img src="photo.jpg" alt="" id="profile-photo">
-                <div class="driver-info">
-                    <p>No wb68A8985</p>
-                    <p>Priyam Kundu</p>
-                </div>
-                <button type="submit" id="show-btn">Show</button>
-            </section>
-            <section class="drivers">
-                <img src="photo.jpg" alt="" id="profile-photo">
-                <div class="driver-info">
-                    <p>No wb68A8985</p>
-                    <p>Priyam Kundu</p>
-                </div>
-                <button type="submit" id="show-btn">Show</button>
-            </section>
-            <section class="drivers">
-                <img src="photo.jpg" alt="" id="profile-photo">
-                <div class="driver-info">
-                    <p>No wb68A8985</p>
-                    <p>Priyam Kundu</p>
-                </div>
-                <button type="submit" id="show-btn">Show</button>
-            </section>
-            <section class="drivers">
-                <img src="photo.jpg" alt="" id="profile-photo">
-                <div class="driver-info">
-                    <p>No wb68A8985</p>
-                    <p>Priyam Kundu</p>
-                </div>
-                <button type="submit" id="show-btn">Show</button>
-            </section>
-            <section class="drivers">
-                <img src="photo.jpg" alt="" id="profile-photo">
-                <div class="driver-info">
-                    <p>No wb68A8985</p>
-                    <p>Priyam Kundu</p>
-                </div>
-                <button type="submit" id="show-btn">Show</button>
-            </section>
-            <section class="drivers">
-                <img src="photo.jpg" alt="" id="profile-photo">
-                <div class="driver-info">
-                    <p>No wb68A8985</p>
-                    <p>Priyam Kundu</p>
-                </div>
-                <button type="submit" id="show-btn">Show</button>
-            </section>
+        <section class="profiles" id="profilesSection">
+            <!-- Driver components will be dynamically added here -->
         </section>
     </div>
+
+    <script>
+        // Fetch areaCount value from the provided API
+        fetch('https://garbage-collect-backend.onrender.com/get-all-assigned-work')
+            .then(response => response.json())
+            .then(data => {
+                let areaCount = data.length; // Use the length of the data array as areaCount
+
+                let profilesSection = document.getElementById('profilesSection');
+
+                // Fetch driver data from the second API
+                fetch('https://garbage-collect-backend.onrender.com/get-driver')
+                    .then(response => response.json())
+                    .then(driverData => {
+                        for (let i = 0; i < areaCount; i++) {
+                            // Create a new driver section
+                            let driverSection = document.createElement('section');
+                            driverSection.classList.add('drivers');
+
+                            // Find the corresponding driver data using driverId
+                            let correspondingDriver = driverData.find(driver => driver.driverId === data[i].driverId);
+
+                            if (correspondingDriver) {
+                                // Create an image element
+                                let imgElement = document.createElement('img');
+                                imgElement.src = correspondingDriver.image;
+                                imgElement.alt = '';
+                                imgElement.id = 'profile-photo';
+
+                                // Create a div for driver information
+                                let driverInfoDiv = document.createElement('div');
+                                driverInfoDiv.classList.add('driver-info');
+
+                                // Create paragraphs for driver information
+                                let p1 = document.createElement('p');
+                                p1.textContent = `No ${data[i].vehicleId}`;
+
+                                let p2 = document.createElement('p');
+                                p2.textContent = `Driver: ${correspondingDriver.name}`;
+
+                                // Append paragraphs to driver info div
+                                driverInfoDiv.appendChild(p1);
+                                driverInfoDiv.appendChild(p2);
+
+                                // Create a button element
+                                let showBtn = document.createElement('button');
+                                showBtn.type = 'submit';
+                                showBtn.textContent = 'Show';
+                                showBtn.id = 'show-btn';
+
+                                // Add click event listener to the submit button
+                                showBtn.addEventListener('click', function () {
+                                    // Log and send data to snd.html
+                                    console.log('Driver ID:', correspondingDriver.driverId);
+                                    console.log('Area ID:', data[i].areaId);
+                                    console.log('Vehicle No:', data[i].vehicleId);
+
+                                    // Create an object with the data
+                                    let sendData = {
+                                        driverId: correspondingDriver.driverId,
+                                        areaId: data[i].areaId,
+                                        vehicleNo: data[i].vehicleId
+                                    };
+
+                                    // Convert the object to a query string
+                                    let queryString = Object.entries(sendData).map(([key, value]) => `${key}=${value}`).join('&');
+
+                                    // Redirect to snd.html with the data
+                                    window.location.href = `showDetails.html?${queryString}`;
+                                });
+
+                                // Append elements to the driver section
+                                driverSection.appendChild(imgElement);
+                                driverSection.appendChild(driverInfoDiv);
+                                driverSection.appendChild(showBtn);
+
+                                // Append the driver section to the profiles section
+                                profilesSection.appendChild(driverSection);
+                            }
+                        }
+                    })
+                    .catch(error => console.error('Error fetching driver data:', error));
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    </script>
 </body>
 
 </html>

@@ -1,8 +1,12 @@
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f4f4;
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f4f4f4;
 }
 
 .container {
@@ -33,7 +37,6 @@ input {
     margin-bottom: 16px;
     border: 2px solid #4caf50;
     border-radius: 5px;
-    box-sizing: border-box;
     background: rgba(76, 175, 80, 0.1);
 }
 

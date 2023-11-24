@@ -15,11 +15,11 @@
     <h1>Municipality Garbage Vehicle Monitoring System</h1>
     <div class="container">
         <div class="text">
-            <p>This our Municipality Garbage Vehicle Monitoring System, it optimizes waste management by tracking and
-                managing
-                municipal garbage vehicles, ensuring efficient collection and disposal for a cleaner, smarter city.</p>
+            <p>This is our Municipality Garbage Vehicle Monitoring System, it optimizes waste management by tracking and
+                managing municipal garbage vehicles, ensuring efficient collection and disposal for a cleaner, smarter
+                city.</p>
         </div>
-        <form action="">
+        <form id="loginForm">
             <div class="form-header">
                 <h2>Welcome Back</h2>
             </div>
@@ -29,9 +29,11 @@
                 <label for="password">Password</label>
                 <input type="password" id="password">
             </div>
-            <div class="form-footer"><button id="signin">Sign in</button></div>
+            <div class="form-footer"><button id="signin" onclick="authenticate(event)">Sign in</button></div>
         </form>
     </div>
+
+    <script src="./scripts.js"></script>
 </body>
 
 </html>

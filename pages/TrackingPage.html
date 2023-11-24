@@ -21,7 +21,7 @@
         }
 
         .main {
-            height: 95vh;
+            height: 90vh;
         }
 
         .container {
@@ -56,11 +56,11 @@
 
         .card {
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
+            flex-direction: row;
             gap: 20px;
-            flex-wrap: nowrap;
         }
 
         .status {
@@ -103,71 +103,76 @@
                         <span class="arrived">Not Arrived Yet</span>
                         <span class="departed">Not Departed Yet</span>
                     </div>
-                    <div class="circle" id="circle1"></div>
+                    <div class="circle"></div>
                 </div>
                 <div class="card">
                     <div class="status">
                         <span class="arrived">Not Arrived Yet</span>
                         <span class="departed">Not Departed Yet</span>
                     </div>
-                    <div class="circle" id="circle2"></div>
+                    <div class="circle"></div>
                 </div>
                 <div class="card">
                     <div class="status">
                         <span class="arrived">Not Arrived Yet</span>
                         <span class="departed">Not Departed Yet</span>
                     </div>
-                    <div class="circle" id="circle3"></div>
+                    <div class="circle"></div>
                 </div>
                 <div class="card">
                     <div class="status">
                         <span class="arrived">Not Arrived Yet</span>
                         <span class="departed">Not Departed Yet</span>
                     </div>
-                    <div class="circle" id="circle4"></div>
+                    <div class="circle"></div>
                 </div>
                 <div class="card">
                     <div class="status">
                         <span class="arrived">Not Arrived Yet</span>
                         <span class="departed">Not Departed Yet</span>
                     </div>
-                    <div class="circle" id="circle5"></div>
+                    <div class="circle"></div>
                 </div>
             </div>
         </section>
     </section>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Simulating order progress
-            function updateOrderProgress(progress) {
-                for (let i = 1; i <= 5; i++) {
-                    let circle = document.getElementById('circle' + i);
-                    if (!circle) continue; // Check if the element exists
-
-                    let arrivalStatus = document.querySelector('#circle' + i + ' .arrived');
-                    let departureStatus = document.querySelector('#circle' + i + ' .departed');
-
-                    if (i <= progress) {
-                        arrivalStatus.textContent = 'Arrived';
-                        arrivalStatus.classList.add('arrived');
-                        departureStatus.textContent = 'Departed';
-                        departureStatus.classList.add('departed');
-                        circle.style.backgroundColor = 'green';
-                    } else {
-                        arrivalStatus.textContent = 'Not Arrived Yet';
-                        arrivalStatus.classList.remove('arrived');
-                        departureStatus.textContent = 'Not Departed Yet';
-                        departureStatus.classList.remove('departed');
-                        circle.style.backgroundColor = 'gray';
-                    }
-                }
+        // Simulating order progress
+        function updateOrderProgress(progress) {
+            // Select all circles, arrived, and departed spans
+            let circles = document.querySelectorAll('.circle');
+            let arrivedStatuses = document.querySelectorAll('.arrived');
+            let departedStatuses = document.querySelectorAll('.departed');
+    
+            // Reset styles for all circles and statuses
+            circles.forEach(circle => circle.style.backgroundColor = 'gray');
+            arrivedStatuses.forEach(status => {
+                status.textContent = 'Not Arrived Yet';
+                status.classList.remove('arrived');
+            });
+            departedStatuses.forEach(status => {
+                status.textContent = 'Not Departed Yet';
+                status.classList.remove('departed');
+            });
+    
+            // Set styles based on progress
+            for (let i = 0; i < progress; i++) {
+                let circle = circles[i];
+                let arrivedStatus = arrivedStatuses[i];
+                let departureStatus = departedStatuses[i];
+    
+                arrivedStatus.textContent = 'Arrived';
+                arrivedStatus.classList.add('arrived');
+                departureStatus.textContent = 'Departed';
+                departureStatus.classList.add('departed');
+                circle.style.backgroundColor = 'green';
             }
-
-            // Example: Set the order progress to 3 (you can replace this with the actual progress)
-            let currentProgress = 3;
-            updateOrderProgress(currentProgress);
-        });
+        }
+    
+        // Example: Set the order progress to 1 (you can replace this with the actual progress)
+        let currentProgress = 4;
+        updateOrderProgress(currentProgress);
     </script>
 </body>
 

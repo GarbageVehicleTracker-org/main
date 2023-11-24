@@ -1,5 +1,12 @@
+// Function to extract query parameters from the URL
+function getQueryParameter(name) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(name);
+}
+
 // Fetch driver data
-fetch('https://garbage-collect-backend.onrender.com/get-driver/696969')
+const driverId = getQueryParameter('driverId');
+fetch(`https://garbage-collect-backend.onrender.com/get-driver/${driverId}`)
     .then(response => response.json())
     .then(data => {
         document.getElementById('driver-image').src = data.image;
@@ -12,7 +19,8 @@ fetch('https://garbage-collect-backend.onrender.com/get-driver/696969')
     .catch(error => console.error('Error fetching driver data:', error));
 
 // Fetch vehicle data
-fetch('https://garbage-collect-backend.onrender.com/get-vehicle/WB68A2395')
+const vehicleNo = getQueryParameter('vehicleNo');
+fetch(`https://garbage-collect-backend.onrender.com/get-vehicle/${vehicleNo}`)
     .then(response => response.json())
     .then(data => {
         document.getElementById('vehicle-id').innerText = `Vehicle ID: ${data.id}`;
@@ -24,6 +32,10 @@ fetch('https://garbage-collect-backend.onrender.com/get-vehicle/WB68A2395')
 
 // Add click event to the track button
 document.getElementById('track-button').addEventListener('click', function() {
-    // Add your tracking logic here
-    alert('Tracking...');
+    // Extract the area ID from the URL
+    const areaId = getQueryParameter('areaId');
+
+    // Redirect to TrackingPage.html with vehicle ID and area ID as query parameters
+    window.location.href = `TrackingPage.html?vehicleId=${vehicleNo}&areaId=${areaId}`;
 });
+

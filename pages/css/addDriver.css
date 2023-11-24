@@ -76,17 +76,18 @@ input:focus {
 }
 
 button {
-  background-color: rgb(83, 202, 74);
+  background-color: #4caf50;
   color: white;
   padding: 12px 30px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 13px;
+  width: 100%;
 }
 
 button:hover {
-  background-color: rgb(83, 202, 74);
+  background-color: rgba(76, 175, 80, 0.8);
   transition: 0.5s;
 }
 

@@ -82,11 +82,11 @@
 
         /* Added style for the 'Arrived' and 'Departed' status */
         .arrived {
-            background-color: green;
+            background-color: transparent;
         }
 
         .departed {
-            background-color: red;
+            background-color: transparent;
         }
     </style>
 </head>
@@ -103,41 +103,51 @@
     </section>
 
     <script>
-        // Dynamically add cards based on cardCount
-        let cardCount = 16; // Change this to your desired count
-        let trackContainer = document.getElementById('trackContainer');
+        // Fetch card count from the API
+        fetch('https://garbage-collect-backend.onrender.com/get-dustbin-count/4241')
+            .then(response => response.json())
+            .then(data => {
+                // Dynamically add cards based on the API response
+                let cardCount = data.dustbinCount;
+                let trackContainer = document.getElementById('trackContainer');
 
-        for (let i = 0; i < cardCount; i++) {
-            // Create a card element
-            let card = document.createElement('div');
-            card.className = 'card';
+                for (let i = 0; i < cardCount; i++) {
+                    // Create a card element
+                    let card = document.createElement('div');
+                    card.className = 'card';
 
-            // Create status elements
-            let statusContainer = document.createElement('div');
-            statusContainer.className = 'status';
+                    // Create status elements
+                    let statusContainer = document.createElement('div');
+                    statusContainer.className = 'status';
 
-            let arrivedStatus = document.createElement('span');
-            arrivedStatus.className = 'arrived';
-            arrivedStatus.textContent = 'Not Arrived Yet';
+                    let arrivedStatus = document.createElement('span');
+                    arrivedStatus.className = 'arrived';
+                    arrivedStatus.textContent = 'Not Arrived Yet';
 
-            let departedStatus = document.createElement('span');
-            departedStatus.className = 'departed';
-            departedStatus.textContent = 'Not Departed Yet';
+                    let departedStatus = document.createElement('span');
+                    departedStatus.className = 'departed';
+                    departedStatus.textContent = 'Not Departed Yet';
 
-            statusContainer.appendChild(arrivedStatus);
-            statusContainer.appendChild(departedStatus);
+                    statusContainer.appendChild(arrivedStatus);
+                    statusContainer.appendChild(departedStatus);
 
-            // Create circle element
-            let circle = document.createElement('div');
-            circle.className = 'circle';
+                    // Create circle element
+                    let circle = document.createElement('div');
+                    circle.className = 'circle';
 
-            // Append status and circle elements to the card
-            card.appendChild(statusContainer);
-            card.appendChild(circle);
+                    // Append status and circle elements to the card
+                    card.appendChild(statusContainer);
+                    card.appendChild(circle);
 
-            // Append the card to the track container
-            trackContainer.appendChild(card);
-        }
+                    // Append the card to the track container
+                    trackContainer.appendChild(card);
+                }
+
+                // Simulating order progress
+                let currentProgress = 5;
+                updateOrderProgress(currentProgress);
+            })
+            .catch(error => console.error('Error fetching data:', error));
 
         // Simulating order progress
         function updateOrderProgress(progress) {
@@ -170,10 +180,6 @@
                 circle.style.backgroundColor = 'green';
             }
         }
-
-        // Example: Set the order progress to 5 (you can replace this with the actual progress)
-        let currentProgress = 5;
-        updateOrderProgress(currentProgress);
     </script>
 </body>
 

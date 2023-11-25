@@ -43,7 +43,7 @@ function authenticate(event) {
               setCookie("authToken", "your_token", 24);
 
               // Redirect to www.google.com
-              window.location.href = "https://www.google.com";
+            //   window.location.href = "https://www.google.com";
           } else {
               alert("Invalid credentials");
           }

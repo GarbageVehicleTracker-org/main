@@ -42,7 +42,7 @@ body {
 }
 
 .container {
-  height: 90vh;
+  height: 80vh;
   width: 90%;
   margin: auto;
   background: var(--color-white);
@@ -81,7 +81,7 @@ h2 {
 }
 
 #driver-section {
-  height: 50vh;
+  height: 45vh;
   width: 47%;
   background: var(--color-white);
   margin: auto;
@@ -96,7 +96,7 @@ h2 {
 }
 
 #vehicle-section {
-  height: 50vh;
+  height: 45vh;
   width: 47%;
   background: var(--color-white);
   margin: auto;

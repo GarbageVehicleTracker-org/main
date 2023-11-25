@@ -5,90 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tracking Page1</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            padding: 0;
-            margin: 0;
-        }
-
-        h1 {
-            text-align: center;
-            font-size: 30px;
-            width: 100%;
-            height: 10%;
-            margin-top: 20px;
-        }
-
-        .main {
-            height: 90vh;
-        }
-
-        .container {
-            width: 100%;
-            height: 80%;
-            padding: 15px;
-            display: flex;
-            flex-wrap: nowrap;
-            flex-direction: row;
-        }
-
-        .map {
-            width: 50%;
-            height: 100%;
-            border: 1px solid black;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .track {
-            width: 50%;
-            border: 1px solid black;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            overflow-y: scroll;
-            max-height: 80vh; /* Added max-height to limit height */
-            padding: 30px 0px;
-        }
-
-        .card {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            flex-direction: row;
-            gap: 20px;
-        }
-
-        .status {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 50px;
-        }
-
-        .circle {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid black;
-        }
-
-        /* Added style for the 'Arrived' and 'Departed' status */
-        .arrived {
-            background-color: transparent;
-        }
-
-        .departed {
-            background-color: transparent;
-        }
-    </style>
+    <link rel="stylesheet" href="./css/TrackingPage.css">
 </head>
 
 <body>
@@ -103,8 +20,34 @@
     </section>
 
     <script>
-        // Fetch card count from the API
-        fetch('https://garbage-collect-backend.onrender.com/get-dustbin-count/4241')
+        // Function to extract query parameters from the URL
+        function getQueryParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // Function to fetch dustbin count from the API
+        function fetchDustbinCount(areaId) {
+            return fetch(`https://garbage-collect-backend.onrender.com/get-all-areas`)
+                .then(response => response.json())
+                .then(data => {
+                    // Find the area with the given areaId
+                    const area = data.find(area => area.areaId === areaId);
+
+                    // Return the dustbin count for the area
+                    return area ? area.dustbins.length : 0;
+                })
+                .catch(error => {
+                    console.error('Error fetching dustbin count:', error);
+                    return 0;
+                });
+        }
+
+        // Get areaId from the URL
+        const areaId = getQueryParameter('areaId');
+
+        // Fetch card count from the API using the obtained areaId
+        fetch(`https://garbage-collect-backend.onrender.com/get-dustbin-count/${areaId}`)
             .then(response => response.json())
             .then(data => {
                 // Dynamically add cards based on the API response
@@ -141,6 +84,12 @@
 
                     // Append the card to the track container
                     trackContainer.appendChild(card);
+
+                    // Fetch dustbin count for the areaId obtained from the previous page
+                    fetchDustbinCount(areaId).then(dustbinCount => {
+                        // Log or use the dustbin count as needed
+                        console.log('Dustbin Count:', dustbinCount);
+                    });
                 }
 
                 // Simulating order progress

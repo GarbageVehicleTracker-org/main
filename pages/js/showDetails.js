@@ -1,4 +1,3 @@
-// Function to extract query parameters from the URL
 function getQueryParameter(name) {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(name);
@@ -12,30 +11,6 @@ async function fetchData(apiUrl) {
         return data;
     } catch (error) {
         console.error('Error fetching data:', error);
-        throw error; // Rethrow the error to handle it further if needed
-    }
-}
-
-// Function to send data to the API
-async function sendDataToApi(apiUrl, data) {
-    try {
-        const response = await fetch(apiUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        });
-
-        // Check if the request was successful
-        if (!response.ok) {
-            throw new Error(`Failed to send data to API. Status: ${response.status}`);
-        }
-
-        const responseData = await response.json();
-        return responseData;
-    } catch (error) {
-        console.error('Error sending data to API:', error);
         throw error; // Rethrow the error to handle it further if needed
     }
 }
@@ -69,20 +44,6 @@ document.getElementById('track-button').addEventListener('click', function () {
     // Extract the area ID from the URL
     const areaId = getQueryParameter('areaId');
 
-    // Prepare data to send to the API
-    const dataToSend = {
-        vehicleId: vehicleNo,
-        areaId: areaId,
-    };
-
-    // Send data to the API
-    sendDataToApi('https://your-api-endpoint.com/track', dataToSend)
-        .then(response => {
-            // Handle the API response if needed
-            console.log('API Response:', response);
-        })
-        .catch(error => {
-            // Handle errors from API request
-            console.error('Error sending data to API:', error);
-        });
+    // Redirect to the tracking page with the areaId as a query parameter
+    window.location.href = `TrackingPage.html?areaId=${areaId}`;
 });

@@ -173,6 +173,6 @@ h2 {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #4CAF50;
+    background: var(--color-forestgreen-100);
     border-radius: 10px;
 }

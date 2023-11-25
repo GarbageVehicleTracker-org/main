@@ -43,7 +43,7 @@ function authenticate(event) {
               setCookie("authToken", "your_token", 24);
 
               // Redirect to www.google.com
-            //   window.location.href = "https://www.google.com";
+              window.location.href = "./pages/AdminPage.html";
           } else {
               alert("Invalid credentials");
           }
@@ -58,6 +58,6 @@ window.onload = function () {
   var authToken = getCookie("authToken");
   if (authToken) {
       // User is logged in, redirect to www.google.com
-      window.location.href = "https://www.google.com";
+      window.location.href = "./pages/AdminPage.html";
   }
 };

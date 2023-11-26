@@ -1,5 +1,5 @@
 // Fetch areaCount value from the provided API
-fetch('https://garbage-collect-backend.onrender.com/get-all-assigned-work')
+fetch('http://34.163.209.106:5500/get-all-assigned-work')
     .then(response => response.json())
     .then(data => {
         let areaCount = data.length; // Use the length of the data array as areaCount
@@ -7,7 +7,7 @@ fetch('https://garbage-collect-backend.onrender.com/get-all-assigned-work')
         let profilesSection = document.getElementById('profilesSection');
 
         // Fetch driver data from the second API
-        fetch('https://garbage-collect-backend.onrender.com/get-driver')
+        fetch('http://34.163.209.106:5500/get-driver')
             .then(response => response.json())
             .then(driverData => {
                 for (let i = 0; i < areaCount; i++) {
@@ -84,11 +84,11 @@ fetch('https://garbage-collect-backend.onrender.com/get-all-assigned-work')
 // Dynamically add notifications based on countNoti
 function fetchAndDisplayNotifications() {
 // Fetch the first API
-fetch('https://garbage-collect-backend.onrender.com/get-all-areas')
+fetch('http://34.163.209.106:5500/get-all-areas')
 .then(response => response.json())
 .then(areaData => {
     // Fetch the second API
-    return fetch('https://garbage-collect-backend.onrender.com/get-all-assigned-work')
+    return fetch('http://34.163.209.106:5500/get-all-assigned-work')
         .then(response => response.json())
         .then(assignedWorkData => {
             let countNoti = 0;

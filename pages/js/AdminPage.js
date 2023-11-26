@@ -183,12 +183,12 @@ fetch("https://garbage-collect-backend.onrender.com/get-driver")
 .catch(error => console.error("Error fetching driver data:", error));
 
 document.getElementById('addDriver').addEventListener('click', function() {
-var targetUrl = "./pages/addDriver.html";
+var targetUrl = "./addDriver.html";
 window.location.href = targetUrl;
 });
 
 document.getElementById('addVehicle').addEventListener('click', function() {
-var targetUrl = "./pages/addVehicle.html";
+var targetUrl = "./addVehicle.html";
 window.location.href = targetUrl;
 });
 
@@ -225,3 +225,8 @@ if (!authToken) {
   window.location.href = "../index.html";
 }
 };
+
+function redirectToHome() {
+  // Change the URL to the desired home.html
+  window.location.href = 'home.html';
+}

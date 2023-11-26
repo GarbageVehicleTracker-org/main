@@ -28,7 +28,7 @@
 
         // Function to fetch dustbins data from the API
         function fetchDustbinsData() {
-            return fetch('http://34.163.209.106:5500/get-all-areas')
+            return fetch('https://garbage-collect-backend.onrender.com/get-all-areas')
                 .then(response => response.json())
                 .catch(error => {
                     console.error('Error fetching dustbins data:', error);

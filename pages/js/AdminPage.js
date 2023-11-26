@@ -56,7 +56,7 @@ function createCard(area, vehicleData, driverData) {
       };
   
   
-      fetch("http://34.163.209.106:5500/assign-work", {
+      fetch("https://garbage-collect-backend.onrender.com/assign-work", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -168,15 +168,15 @@ function createCard(area, vehicleData, driverData) {
   }
   
   // Fetch driver data from the API
-  fetch("http://34.163.209.106:5500/get-driver")
+  fetch("https://garbage-collect-backend.onrender.com/get-driver")
     .then(response => response.json())
     .then(driverData => {
       // Fetch vehicle data from the API
-      fetch("http://34.163.209.106:5500/get-vehicle")
+      fetch("https://garbage-collect-backend.onrender.com/get-vehicle")
         .then(response => response.json())
         .then(vehicleData => {
           // Fetch area data from the API
-          fetch("http://34.163.209.106:5500/get-all-areas")
+          fetch("https://garbage-collect-backend.onrender.com/get-all-areas")
             .then(response => response.json())
             .then(areaData => {
               const mainSection = document.getElementById("main-section");

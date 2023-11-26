@@ -17,7 +17,7 @@ async function fetchData(apiUrl) {
 
 // Fetch driver data
 const driverId = getQueryParameter('driverId');
-fetchData(`http://34.163.209.106:5500/get-driver/${driverId}`)
+fetchData(`https://garbage-collect-backend.onrender.com/get-driver/${driverId}`)
     .then(data => {
         document.getElementById('driver-image').src = data.image;
         document.getElementById('driver-name').innerText = `Name: ${data.name}`;
@@ -30,7 +30,7 @@ fetchData(`http://34.163.209.106:5500/get-driver/${driverId}`)
 
 // Fetch vehicle data
 const vehicleNo = getQueryParameter('vehicleNo');
-fetchData(`http://34.163.209.106:5500/get-vehicle/${vehicleNo}`)
+fetchData(`https://garbage-collect-backend.onrender.com/get-vehicle/${vehicleNo}`)
     .then(data => {
         document.getElementById('vehicle-id').innerText = `Vehicle ID: ${data.id}`;
         document.getElementById('vehicle-registration').innerText = `Registration No: ${data.registrationNo}`;

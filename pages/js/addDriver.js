@@ -18,7 +18,7 @@ function submitForm() {
     };
   
     // Make a POST request to the API endpoint
-    fetch('https://garbage-collect-backend.onrender.com/send-driver', {
+    fetch('http://34.163.209.106:5500/send-driver', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

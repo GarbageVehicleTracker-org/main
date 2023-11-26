@@ -24,7 +24,7 @@ function saveData() {
 
 function sendDataToBackend(data) {
     // Assuming you have a backend API endpoint (replace URL accordingly)
-    const apiUrl = 'https://garbage-collect-backend.onrender.com/send-vehicle';
+    const apiUrl = 'http://34.163.209.106:5500/send-vehicle';
 
     fetch(apiUrl, {
         method: 'POST',

@@ -26,109 +26,66 @@
             return urlParams.get(name);
         }
 
-        // Function to fetch dustbin count from the API
-        function fetchDustbinCount(areaId) {
-            return fetch(`https://garbage-collect-backend.onrender.com/get-all-areas`)
+        // Function to fetch dustbins data from the API
+        function fetchDustbinsData() {
+            return fetch('https://garbage-collect-backend.onrender.com/get-all-areas')
                 .then(response => response.json())
-                .then(data => {
-                    // Find the area with the given areaId
-                    const area = data.find(area => area.areaId === areaId);
-
-                    // Return the dustbin count for the area
-                    return area ? area.dustbins.length : 0;
-                })
                 .catch(error => {
-                    console.error('Error fetching dustbin count:', error);
-                    return 0;
+                    console.error('Error fetching dustbins data:', error);
+                    return [];
                 });
         }
 
         // Get areaId from the URL
         const areaId = getQueryParameter('areaId');
 
-        // Fetch card count from the API using the obtained areaId
-        fetch(`https://garbage-collect-backend.onrender.com/get-dustbin-count/${areaId}`)
-            .then(response => response.json())
+        // Fetch dustbins data from the API
+        fetchDustbinsData()
             .then(data => {
-                // Dynamically add cards based on the API response
-                let cardCount = data.dustbinCount;
-                let trackContainer = document.getElementById('trackContainer');
+                // Find the area with the given areaId
+                const area = data.find(area => area.areaId === areaId);
 
-                for (let i = 0; i < cardCount; i++) {
-                    // Create a card element
-                    let card = document.createElement('div');
-                    card.className = 'card';
+                if (area) {
+                    // Dynamically add cards based on the dustbins in the area
+                    let trackContainer = document.getElementById('trackContainer');
 
-                    // Create status elements
-                    let statusContainer = document.createElement('div');
-                    statusContainer.className = 'status';
+                    area.dustbins.forEach((dustbin, index) => {
+                        // Create a card element
+                        let card = document.createElement('div');
+                        card.className = 'card';
 
-                    let arrivedStatus = document.createElement('span');
-                    arrivedStatus.className = 'arrived';
-                    arrivedStatus.textContent = 'Not Arrived Yet';
+                        // Create status elements
+                        let statusContainer = document.createElement('div');
+                        statusContainer.className = 'status';
 
-                    let departedStatus = document.createElement('span');
-                    departedStatus.className = 'departed';
-                    departedStatus.textContent = 'Not Departed Yet';
+                        let arrivedStatus = document.createElement('span');
+                        arrivedStatus.className = 'arrived';
+                        arrivedStatus.textContent = dustbin.isVisited ? 'Arrived' : 'Not Arrived Yet';
 
-                    statusContainer.appendChild(arrivedStatus);
-                    statusContainer.appendChild(departedStatus);
+                        statusContainer.appendChild(arrivedStatus);
 
-                    // Create circle element
-                    let circle = document.createElement('div');
-                    circle.className = 'circle';
+                        // Create circle element
+                        let circle = document.createElement('div');
+                        circle.className = 'circle';
+                        circle.style.backgroundColor = dustbin.isVisited ? 'green' : 'gray';
 
-                    // Append status and circle elements to the card
-                    card.appendChild(statusContainer);
-                    card.appendChild(circle);
+                        // Append status and circle elements to the card
+                        card.appendChild(statusContainer);
+                        card.appendChild(circle);
 
-                    // Append the card to the track container
-                    trackContainer.appendChild(card);
+                        // Append the card to the track container
+                        trackContainer.appendChild(card);
 
-                    // Fetch dustbin count for the areaId obtained from the previous page
-                    fetchDustbinCount(areaId).then(dustbinCount => {
-                        // Log or use the dustbin count as needed
-                        console.log('Dustbin Count:', dustbinCount);
+                        // Log the dustbin coordinates and isVisited status
+                        console.log(`Dustbin ${index + 1} Coordinates:`, dustbin.coordinates);
+                        console.log(`Dustbin ${index + 1} isVisited:`, dustbin.isVisited);
                     });
-                }
 
-                // Simulating order progress
-                let currentProgress = 5;
-                updateOrderProgress(currentProgress);
+                } else {
+                    console.error('Area not found with areaId:', areaId);
+                }
             })
             .catch(error => console.error('Error fetching data:', error));
-
-        // Simulating order progress
-        function updateOrderProgress(progress) {
-            // Select all circles, arrived, and departed spans
-            let circles = document.querySelectorAll('.circle');
-            let arrivedStatuses = document.querySelectorAll('.arrived');
-            let departedStatuses = document.querySelectorAll('.departed');
-
-            // Reset styles for all circles and statuses
-            circles.forEach(circle => circle.style.backgroundColor = 'gray');
-            arrivedStatuses.forEach(status => {
-                status.textContent = 'Not Arrived Yet';
-                status.classList.remove('arrived');
-            });
-            departedStatuses.forEach(status => {
-                status.textContent = 'Not Departed Yet';
-                status.classList.remove('departed');
-            });
-
-            // Set styles based on progress
-            for (let i = 0; i < progress; i++) {
-                let circle = circles[i];
-                let arrivedStatus = arrivedStatuses[i];
-                let departureStatus = departedStatuses[i];
-
-                arrivedStatus.textContent = 'Arrived';
-                arrivedStatus.classList.add('arrived');
-                departureStatus.textContent = 'Departed';
-                departureStatus.classList.add('departed');
-                circle.style.backgroundColor = 'green';
-            }
-        }
     </script>
 </body>
 

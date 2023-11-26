@@ -15,7 +15,7 @@ function authenticate(event) {
     var password = document.getElementById("password").value;
 
     // Make an API request for authentication
-    fetch("http://34.163.209.106:5500/login", {
+    fetch("https://garbage-collect-backend.onrender.com/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

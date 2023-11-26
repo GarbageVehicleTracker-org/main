@@ -60,6 +60,14 @@ h1 {
   user-select: none;
 }
 
+.card-id {
+  color: var(--color-para);
+  font-family: var(--font-outfit);
+  font-weight: 400;
+  font-size: 18px;
+  user-select: none;
+}
+
 .card {
   display: flex;
   justify-content: space-between;
@@ -78,7 +86,7 @@ select {
     color: var(--color-forestgreen-100);
 }
 
-.submit-btn, #addVehicle, #addDriver {
+.submit-btn, #addVehicle, #addDriver, #back {
   width: 150px;
   height: 45px;
   background-color: var(--color-forestgreen-100);
@@ -90,7 +98,17 @@ select {
   font-size: medium;
 }
 
-.submit-btn:hover, #addVehicle:hover, #addDriver:hover {
+.submit-btn:hover, #addVehicle:hover, #addDriver:hover, #back:hover {
   background-color: rgba(76, 175, 80, 0.8);
   transition: 0.5s;
+}
+
+#bottom-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.add-btn {
+  display: flex;
+  gap: 20px;
 }

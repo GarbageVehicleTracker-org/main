@@ -13,24 +13,29 @@ function createCard(area, vehicleData, driverData) {
     card.appendChild(idSection);
   
     // Second section: Select boxes
-    const dropdownSection = document.createElement("div");
-    dropdownSection.classList.add("card-section");
+    /* const dropdownSection = document.createElement("div");
+    dropdownSection.classList.add("card-section2"); */
   
-    const dropdownContainer = document.createElement("div");
-    dropdownContainer.classList.add("dropdown-container");
+    const dropdownContainer1 = document.createElement("div");
+    dropdownContainer1.classList.add("dropdown-container1");
   
     // Create the first dropdown and populate it with vehicle IDs
     const dropdown1 = createDropdown("Vehicle", vehicleData.map(vehicle => vehicle.id));
     dropdown1.classList.add("vehicle-dropdown"); // Add this class for identifying vehicle dropdown
-    dropdownContainer.appendChild(dropdown1);
+    dropdownContainer1.appendChild(dropdown1);
   
+    const dropdownContainer2 = document.createElement("div");
+    dropdownContainer2.classList.add("dropdown-container2");
+
     // Create the second dropdown and populate it with driver names
     const dropdown2 = createDropdown("Driver", driverData.map(driver => driver.name));
     dropdown2.classList.add("driver-dropdown"); // Add this class for identifying driver dropdown
-    dropdownContainer.appendChild(dropdown2);
+    dropdownContainer2.appendChild(dropdown2);
   
-    dropdownSection.appendChild(dropdownContainer);
-    card.appendChild(dropdownSection);
+/*     dropdownContainer1.appendChild(dropdown1);
+    dropdownContainer2.appendChild(dropdown2); */
+    card.appendChild(dropdownContainer1);
+    card.appendChild(dropdownContainer2);
   
     // Third section: Submit button
     const submitSection = document.createElement("div");

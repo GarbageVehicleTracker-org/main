@@ -116,7 +116,7 @@ h2 {
   border-radius: 50%;
 }
 
-#track-button {
+.vehicle-info-button {
   width: 150px;
   height: 45px;
   background-color: var(--color-forestgreen-100);
@@ -126,7 +126,7 @@ h2 {
   color: var(--color-white);
   cursor: pointer;
   font-size: medium;
-  margin: auto;
+  margin: 40px auto;
 }
 
 .fix-driver-info {
@@ -138,4 +138,10 @@ h2 {
 
 .fix-vehicle-info {
   margin-top: 20px;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

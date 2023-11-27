@@ -1,34 +1,37 @@
 // Function to create a card
 function createCard(area, vehicleData, driverData) {
+  // Create the main card container
   const card = document.createElement("div");
   card.classList.add("card");
 
   // First section: Area Name
-  const idSection = document.createElement("div");
-  idSection.classList.add("card-section");
-  const idText = document.createElement("div");
-  idText.classList.add("card-id");
-  idText.textContent = `Area: ${area.name}`;
-  idSection.appendChild(idText);
-  card.appendChild(idSection);
+  const areaSection = document.createElement("div");
+  areaSection.classList.add("card-section");
+  const areaText = document.createElement("div");
+  areaText.classList.add("card-area");
+  areaText.textContent = `Area: ${area.name}`;
+  areaSection.appendChild(areaText);
+  card.appendChild(areaSection);
 
   // Second section: Select boxes
+  const selectSection = document.createElement("div");
+  selectSection.classList.add("card-section");
+
   const dropdownContainer1 = document.createElement("div");
   dropdownContainer1.classList.add("dropdown-container1");
-
   const dropdown1 = createDropdown("Vehicle", vehicleData.map(vehicle => vehicle.id));
   dropdown1.classList.add("vehicle-dropdown");
   dropdownContainer1.appendChild(dropdown1);
 
   const dropdownContainer2 = document.createElement("div");
   dropdownContainer2.classList.add("dropdown-container2");
-
   const dropdown2 = createDropdown("Driver", driverData.map(driver => driver.name));
   dropdown2.classList.add("driver-dropdown");
   dropdownContainer2.appendChild(dropdown2);
 
-  card.appendChild(dropdownContainer1);
-  card.appendChild(dropdownContainer2);
+  selectSection.appendChild(dropdownContainer1);
+  selectSection.appendChild(dropdownContainer2);
+  card.appendChild(selectSection);
 
   // Third section: Submit button
   const submitSection = document.createElement("div");
@@ -137,7 +140,7 @@ function disableSelectedOptions(area, selectedVehicle, selectedDriver) {
   const cards = document.querySelectorAll('.card');
 
   cards.forEach(card => {
-    if (card.querySelector('.card-id').textContent === `Area: ${area}`) {
+    if (card.querySelector('.card-area').textContent === `Area: ${area}`) {
       return;
     }
 
@@ -161,72 +164,71 @@ function disableOption(dropdown, optionValue) {
 }
 
 fetch("https://garbage-collect-backend.onrender.com/get-driver")
-.then(response => response.json())
-.then(driverData => {
-  fetch("https://garbage-collect-backend.onrender.com/get-vehicle")
-    .then(response => response.json())
-    .then(vehicleData => {
-      fetch("https://garbage-collect-backend.onrender.com/get-all-areas")
-        .then(response => response.json())
-        .then(areaData => {
-          const mainSection = document.getElementById("main-section");
+  .then(response => response.json())
+  .then(driverData => {
+    fetch("https://garbage-collect-backend.onrender.com/get-vehicle")
+      .then(response => response.json())
+      .then(vehicleData => {
+        fetch("https://garbage-collect-backend.onrender.com/get-all-areas")
+          .then(response => response.json())
+          .then(areaData => {
+            const mainSection = document.getElementById("main-section");
 
-          areaData.forEach(area => {
-            const card = createCard(area, vehicleData, driverData);
-            mainSection.appendChild(card);
-          });
-        })
-        .catch(error => console.error("Error fetching area data:", error));
-    })
-    .catch(error => console.error("Error fetching vehicle data:", error));
-})
-.catch(error => console.error("Error fetching driver data:", error));
+            areaData.forEach(area => {
+              const card = createCard(area, vehicleData, driverData);
+              mainSection.appendChild(card);
+            });
+          })
+          .catch(error => console.error("Error fetching area data:", error));
+      })
+      .catch(error => console.error("Error fetching vehicle data:", error));
+  })
+  .catch(error => console.error("Error fetching driver data:", error));
 
-document.getElementById('addDriver').addEventListener('click', function() {
-var targetUrl = "./addDriver.html";
-window.location.href = targetUrl;
+document.getElementById('addDriver').addEventListener('click', function () {
+  var targetUrl = "./addDriver.html";
+  window.location.href = targetUrl;
 });
 
-document.getElementById('addVehicle').addEventListener('click', function() {
-var targetUrl = "./addVehicle.html";
-window.location.href = targetUrl;
+document.getElementById('addVehicle').addEventListener('click', function () {
+  var targetUrl = "./addVehicle.html";
+  window.location.href = targetUrl;
 });
 
 function getCookie(name) {
-var nameEQ = name + "=";
-var ca = document.cookie.split(';');
-for (var i = 0; i < ca.length; i++) {
-  var c = ca[i];
-  while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-  if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-}
-return null;
+  var nameEQ = name + "=";
+  var ca = document.cookie.split(';');
+  for (var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+  }
+  return null;
 }
 
 function setCookie(name, value, days) {
-const date = new Date();
-date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-const expires = `expires=${date.toUTCString()}`;
-document.cookie = `${name}=${value}; ${expires}; path=/`;
+  const date = new Date();
+  date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+  const expires = `expires=${date.toUTCString()}`;
+  document.cookie = `${name}=${value}; ${expires}; path=/`;
 }
 
 function deleteCookie(name) {
-document.cookie = name + '=; Max-Age=-99999999;';
+  document.cookie = name + '=; Max-Age=-99999999;';
 }
 
 function logout() {
-deleteCookie("authToken");
-window.location.href = "../index.html";
+  deleteCookie("authToken");
+  window.location.href = "../index.html";
 }
 
 window.onload = function () {
-var authToken = getCookie("authToken");
-if (!authToken) {
-  window.location.href = "../index.html";
-}
+  var authToken = getCookie("authToken");
+  if (!authToken) {
+    window.location.href = "../index.html";
+  }
 };
 
 function redirectToHome() {
-  // Change the URL to the desired home.html
   window.location.href = 'home.html';
 }

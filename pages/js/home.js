@@ -83,52 +83,52 @@ fetch('https://garbage-collect-backend.onrender.com/get-all-assigned-work')
 
 // Dynamically add notifications based on countNoti
 function fetchAndDisplayNotifications() {
-// Fetch the first API
-fetch('https://garbage-collect-backend.onrender.com/get-all-areas')
-.then(response => response.json())
-.then(areaData => {
-    // Fetch the second API
-    return fetch('https://garbage-collect-backend.onrender.com/get-all-assigned-work')
+    // Fetch the first API
+    fetch('https://garbage-collect-backend.onrender.com/get-all-areas')
         .then(response => response.json())
-        .then(assignedWorkData => {
-            let countNoti = 0;
-            let notificationSection = document.getElementById('notificationSection');
+        .then(areaData => {
+            // Fetch the second API
+            return fetch('https://garbage-collect-backend.onrender.com/get-all-assigned-work')
+                .then(response => response.json())
+                .then(assignedWorkData => {
+                    let countNoti = 0;
+                    let notificationSection = document.getElementById('notificationSection');
 
-            // Clear existing notifications
-            notificationSection.innerHTML = '';
+                    // Clear existing notifications
+                    notificationSection.innerHTML = '';
 
-            // Loop through each area
-            areaData.forEach(area => {
-                // Loop through each dustbin in the area
-                area.dustbins.forEach((dustbin, index) => {
-                    // Check if isVisited is true
-                    if (dustbin.isVisited) {
-                        // Find the corresponding assigned work for the area
-                        const assignedWork = assignedWorkData.find(assignedWorkData => assignedWorkData.areaId == area.areaId);
-                        // Create a new notifications section
-                        let notificationsSection = document.createElement('section');
-                        notificationsSection.classList.add('notifications');
+                    // Loop through each area
+                    areaData.forEach(area => {
+                        // Loop through each dustbin in the area
+                        area.dustbins.forEach((dustbin, index) => {
+                            // Check if isVisited is true
+                            if (dustbin.isVisited) {
+                                // Find the corresponding assigned work for the area
+                                const assignedWork = assignedWorkData.find(assignedWorkData => assignedWorkData.areaId == area.areaId);
+                                // Create a new notifications section
+                                let notificationsSection = document.createElement('section');
+                                notificationsSection.classList.add('notifications');
 
-                        // Create a notification element
-                        let notificationElement = document.createElement('h3');
-                        notificationElement.classList.add('noti');
-                        notificationElement.textContent = `On ${area.name} area, Dustbin no: ${index + 1} visited by Vehicle ${assignedWork ? assignedWork.vehicleId : 'N/A'}`;
-                        // console.log(assignedWork.vehicleId)
-                        // Append notification element to notifications section
-                        notificationsSection.appendChild(notificationElement);
+                                // Create a notification element
+                                let notificationElement = document.createElement('h3');
+                                notificationElement.classList.add('noti');
+                                notificationElement.textContent = `On ${area.name} area, Dustbin no: ${index + 1} visited by Vehicle ${assignedWork ? assignedWork.vehicleId : 'N/A'}`;
+                                // console.log(assignedWork.vehicleId)
+                                // Append notification element to notifications section
+                                notificationsSection.appendChild(notificationElement);
 
-                        // Append notifications section to notification section
-                        notificationSection.appendChild(notificationsSection);
+                                // Append notifications section to notification section
+                                notificationSection.appendChild(notificationsSection);
 
-                        countNoti++;
-                    }
+                                countNoti++;
+                            }
+                        });
+                    });
+
+                    console.log('Count of visited dustbins:', countNoti);
                 });
-            });
-
-            console.log('Count of visited dustbins:', countNoti);
-        });
-})
-.catch(error => console.error('Error fetching data:', error));
+        })
+        .catch(error => console.error('Error fetching data:', error));
 }
 
 // Call the function initially
@@ -139,32 +139,28 @@ setInterval(fetchAndDisplayNotifications, 2000);
 
 
 function getCookie(name) {
-var nameEQ = name + "=";
-var ca = document.cookie.split(';');
-for (var i = 0; i < ca.length; i++) {
-  var c = ca[i];
-  while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-  if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-}
-return null;
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
 }
 
 function deleteCookie(name) {
-document.cookie = name + '=; Max-Age=-99999999;';
+    document.cookie = name + '=; Max-Age=-99999999;';
 }
 
 function logout() {
-// Delete the authToken cookie
-deleteCookie("authToken");
-
-// Redirect to the login page (index.html)
-window.location.href = "../index.html";
+    deleteCookie("authToken");
+    window.location.href = "../index.html";
 }
 
 window.onload = function () {
-var authToken = getCookie("authToken");
-if (!authToken) {
-// User is not logged in, redirect to login page
-window.location.href = "../index.html";
-}
+    var authToken = getCookie("authToken");
+    if (!authToken) {
+        window.location.href = "../index.html";
+    }
 };

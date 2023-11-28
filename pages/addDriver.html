@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito Sans:wght@700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@600&display=swap" />
   <link rel="stylesheet" href="./css/addDriver.css">
   <title>Add Driver</title>
 </head>
+
 <body>
   <div class="container">
     <h1>Add Driver</h1>
@@ -13,18 +17,18 @@
     <div class="form" aria-label="Add Driver Form" id="driverForm">
       <div class="input-box">
         <label for="fullName">Full Name</label>
-        <input type="text" id="fullName" name="fullName" required placeholder="Enter full name">
+        <input type="text" id="fullName" name="fullName" required placeholder="Enter full name" required>
       </div>
 
       <div class="column1">
         <div class="input-box">
           <label for="phoneNumber">Phone Number</label>
-          <input type="tel" id="phoneNumber" name="phoneNumber" required placeholder="Enter phone number">
+          <input type="tel" id="phoneNumber" name="phoneNumber" required placeholder="Enter phone number" required>
         </div>
 
         <div class="input-box">
           <label for="aadharNumber">Aadhar Number</label>
-          <input type="number" id="aadharNumber" name="id" required placeholder="Enter Aadhar number">
+          <input type="number" id="aadharNumber" name="id" required placeholder="Enter Aadhar number" required>
         </div>
       </div>
 
@@ -45,13 +49,13 @@
 
       <div class="input-box age">
         <label for="age">Age</label>
-        <input type="number" id="age" name="age" required placeholder="Enter age">
+        <input type="number" id="age" name="age" required placeholder="Enter age" required>
       </div>
 
       <div class="column">
         <div class="input-box">
           <label for="photographURL">Photograph URL</label>
-          <input type="url" id="photographURL" name="photographURL" required placeholder="Enter photograph URL">
+          <input type="url" id="photographURL" name="photographURL" required placeholder="Enter photograph URL" required>
         </div>
       </div>
 
@@ -63,4 +67,5 @@
 
   <script src="./js/addDriver.js"></script>
 </body>
+
 </html>

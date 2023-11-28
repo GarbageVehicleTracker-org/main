@@ -111,8 +111,8 @@ h2 {
 }
 
 #driver-image {
-  width: 200px;
-  height: 200px;
+  width: 230px;
+  height: 230px;
   border-radius: 50%;
 }
 
@@ -138,6 +138,10 @@ h2 {
 
 .fix-vehicle-info {
   margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
 .btn {
@@ -145,3 +149,20 @@ h2 {
   justify-content: center;
   align-items: center;
 }
+.vehicle-info-button{
+  font-family: var(--font-nunito-sans);
+  height: 55px;
+  width: 150px;
+  border-radius: 35px;
+  font-size: large;
+}
+/* button {
+  background-color: #4caf50;
+  color: white;
+
+  border: none;
+  
+  cursor: pointer;
+  
+  font-family: var(--font-nunito-sans);
+} */

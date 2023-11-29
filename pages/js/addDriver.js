@@ -79,3 +79,6 @@ window.onload = function () {
 function redirectToHome() {
     window.location.href = 'home.html';
 }
+function goBack() {
+    window.history.back();
+}

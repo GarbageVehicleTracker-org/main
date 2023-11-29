@@ -86,7 +86,7 @@ button {
   background-color: #4caf50;
   color: white;
   height: 55px;
-  width: 250px;
+  width: 150px;
   border: none;
   border-radius: 35px;
   cursor: pointer;
@@ -101,5 +101,6 @@ button:hover {
 
 .submit {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
+
 }

@@ -47,3 +47,6 @@ document.getElementById('track-button').addEventListener('click', function () {
     // Redirect to the tracking page with the areaId as a query parameter
     window.location.href = `TrackingPage.html?areaId=${areaId}`;
 });
+function goBack() {
+    window.history.back();
+}

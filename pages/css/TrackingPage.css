@@ -127,7 +127,7 @@ h2 {
 
 .card {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     flex-direction: row;
@@ -137,7 +137,7 @@ h2 {
 .status {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     height: 50px;
 }
 

@@ -49,7 +49,7 @@ function updateTrackingUI(data) {
             // Create circle element
             let circle = document.createElement('div');
             circle.className = 'circle';
-            circle.style.backgroundColor = dustbin.isVisited ? 'green' : 'gray';
+            circle.style.backgroundColor = dustbin.isVisited ? '#4CAF50' : 'gray';
 
             // Append status and circle elements to the card
             card.appendChild(statusContainer);

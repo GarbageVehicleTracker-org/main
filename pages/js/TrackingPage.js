@@ -34,7 +34,15 @@ function updateTrackingUI(data) {
 
             let arrivedStatus = document.createElement('span');
             arrivedStatus.className = 'arrived';
-            arrivedStatus.textContent = dustbin.isVisited ? 'Arrived' : 'Not Arrived Yet';
+
+            if (dustbin.isVisited) {
+                arrivedStatus.textContent = `Arrived at ${new Date(dustbin.visitedTimestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}`;
+
+
+
+            } else {
+                arrivedStatus.textContent = 'Not Arrived Yet';
+            }
 
             statusContainer.appendChild(arrivedStatus);
 
@@ -78,8 +86,6 @@ setInterval(() => {
         })
         .catch(error => console.error('Error fetching data:', error));
 }, 1000);
-
-// ... (rest of the code remains unchanged)
 
 function getCookie(name) {
     var nameEQ = name + "=";

@@ -1,9 +1,13 @@
-/* Common CSS */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f4f4f4;
   margin: 0;
   padding: 0;
+}
+
+:root {
+  --font-nunito-sans: "Nunito Sans";
+  --font-outfit: Outfit;
 }
 
 .container {
@@ -19,6 +23,7 @@ body {
 h1 {
   text-align: center;
   color: rgb(14, 15, 14);
+  font-family: var(--font-nunito-sans);
 }
 
 label {
@@ -27,6 +32,7 @@ label {
   font-weight: 500;
   user-select: none;
   color: #333;
+  font-family: var(--font-nunito-sans);
 }
 
 input {
@@ -37,6 +43,7 @@ input {
   border-radius: 5px;
   box-sizing: border-box;
   background: rgba(50, 196, 101, 0.1);
+  font-family: var(--font-nunito-sans);
 }
 
 input:focus {
@@ -78,12 +85,13 @@ input:focus {
 button {
   background-color: #4caf50;
   color: white;
-  padding: 12px 30px;
+  height: 55px;
+  width: 250px;
   border: none;
-  border-radius: 25px;
+  border-radius: 35px;
   cursor: pointer;
-  font-size: 13px;
-  width: 100%;
+  font-size: large;
+  font-family: var(--font-nunito-sans);
 }
 
 button:hover {

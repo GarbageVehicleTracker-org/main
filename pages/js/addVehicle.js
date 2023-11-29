@@ -4,7 +4,7 @@ function saveData() {
     const sizeValue = document.getElementById('sizeInput').value;
     const capacityValue = document.getElementById('capacityInput').value;
 
-    // Validate input (you can add more sophisticated validation)
+    // Validate input 
     if (!noValue || !modelValue || !sizeValue || !capacityValue) {
         alert('Please fill in all fields.');
         return;
@@ -18,12 +18,10 @@ function saveData() {
         capacity: parseInt(capacityValue),
     };
 
-    // Send data to the backend API (you need to implement the backend)
     sendDataToBackend(data);
 }
 
 function sendDataToBackend(data) {
-    // Assuming you have a backend API endpoint (replace URL accordingly)
     const apiUrl = 'https://garbage-collect-backend.onrender.com/send-vehicle';
 
     fetch(apiUrl, {
@@ -41,7 +39,7 @@ function sendDataToBackend(data) {
     })
     .then(responseData => {
         alert('Data saved successfully!');
-        console.log(responseData)
+        console.log(responseData);
     })
     .catch(error => {
         console.error('There was a problem with the fetch operation:', error);

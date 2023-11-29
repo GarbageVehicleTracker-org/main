@@ -5,90 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tracking Page1</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            padding: 0;
-            margin: 0;
-        }
-
-        h1 {
-            text-align: center;
-            font-size: 30px;
-            width: 100%;
-            height: 10%;
-            margin-top: 20px;
-        }
-
-        .main {
-            height: 90vh;
-        }
-
-        .container {
-            width: 100%;
-            height: 80%;
-            padding: 15px;
-            display: flex;
-            flex-wrap: nowrap;
-            flex-direction: row;
-        }
-
-        .map {
-            width: 50%;
-            height: 100%;
-            border: 1px solid black;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .track {
-            width: 50%;
-            border: 1px solid black;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            overflow-y: scroll;
-            max-height: 80vh; /* Added max-height to limit height */
-            padding: 30px 0px;
-        }
-
-        .card {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            flex-direction: row;
-            gap: 20px;
-        }
-
-        .status {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 50px;
-        }
-
-        .circle {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid black;
-        }
-
-        /* Added style for the 'Arrived' and 'Departed' status */
-        .arrived {
-            background-color: transparent;
-        }
-
-        .departed {
-            background-color: transparent;
-        }
-    </style>
+    <link rel="stylesheet" href="./css/TrackingPage.css">
 </head>
 
 <body>
@@ -102,83 +19,72 @@
     </section>
 
     <script>
-        // Fetch card count from the API
-        fetch('https://garbage-collect-backend.onrender.com/get-dustbin-count/4241')
-            .then(response => response.json())
+        // Function to extract query parameters from the URL
+        function getQueryParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // Function to fetch dustbins data from the API
+        function fetchDustbinsData() {
+            return fetch('https://garbage-collect-backend.onrender.com/get-all-areas')
+                .then(response => response.json())
+                .catch(error => {
+                    console.error('Error fetching dustbins data:', error);
+                    return [];
+                });
+        }
+
+        // Get areaId from the URL
+        const areaId = getQueryParameter('areaId');
+
+        // Fetch dustbins data from the API
+        fetchDustbinsData()
             .then(data => {
-                // Dynamically add cards based on the API response
-                let cardCount = data.dustbinCount;
-                let trackContainer = document.getElementById('trackContainer');
+                // Find the area with the given areaId
+                const area = data.find(area => area.areaId === areaId);
 
-                for (let i = 0; i < cardCount; i++) {
-                    // Create a card element
-                    let card = document.createElement('div');
-                    card.className = 'card';
+                if (area) {
+                    // Dynamically add cards based on the dustbins in the area
+                    let trackContainer = document.getElementById('trackContainer');
 
-                    // Create status elements
-                    let statusContainer = document.createElement('div');
-                    statusContainer.className = 'status';
+                    area.dustbins.forEach((dustbin, index) => {
+                        // Create a card element
+                        let card = document.createElement('div');
+                        card.className = 'card';
 
-                    let arrivedStatus = document.createElement('span');
-                    arrivedStatus.className = 'arrived';
-                    arrivedStatus.textContent = 'Not Arrived Yet';
+                        // Create status elements
+                        let statusContainer = document.createElement('div');
+                        statusContainer.className = 'status';
 
-                    let departedStatus = document.createElement('span');
-                    departedStatus.className = 'departed';
-                    departedStatus.textContent = 'Not Departed Yet';
+                        let arrivedStatus = document.createElement('span');
+                        arrivedStatus.className = 'arrived';
+                        arrivedStatus.textContent = dustbin.isVisited ? 'Arrived' : 'Not Arrived Yet';
 
-                    statusContainer.appendChild(arrivedStatus);
-                    statusContainer.appendChild(departedStatus);
+                        statusContainer.appendChild(arrivedStatus);
 
-                    // Create circle element
-                    let circle = document.createElement('div');
-                    circle.className = 'circle';
+                        // Create circle element
+                        let circle = document.createElement('div');
+                        circle.className = 'circle';
+                        circle.style.backgroundColor = dustbin.isVisited ? 'green' : 'gray';
 
-                    // Append status and circle elements to the card
-                    card.appendChild(statusContainer);
-                    card.appendChild(circle);
+                        // Append status and circle elements to the card
+                        card.appendChild(statusContainer);
+                        card.appendChild(circle);
 
-                    // Append the card to the track container
-                    trackContainer.appendChild(card);
+                        // Append the card to the track container
+                        trackContainer.appendChild(card);
+
+                        // Log the dustbin coordinates and isVisited status
+                        console.log(`Dustbin ${index + 1} Coordinates:`, dustbin.coordinates);
+                        console.log(`Dustbin ${index + 1} isVisited:`, dustbin.isVisited);
+                    });
+
+                } else {
+                    console.error('Area not found with areaId:', areaId);
                 }
-
-                // Simulating order progress
-                let currentProgress = 5;
-                updateOrderProgress(currentProgress);
             })
             .catch(error => console.error('Error fetching data:', error));
-
-        // Simulating order progress
-        function updateOrderProgress(progress) {
-            // Select all circles, arrived, and departed spans
-            let circles = document.querySelectorAll('.circle');
-            let arrivedStatuses = document.querySelectorAll('.arrived');
-            let departedStatuses = document.querySelectorAll('.departed');
-
-            // Reset styles for all circles and statuses
-            circles.forEach(circle => circle.style.backgroundColor = 'gray');
-            arrivedStatuses.forEach(status => {
-                status.textContent = 'Not Arrived Yet';
-                status.classList.remove('arrived');
-            });
-            departedStatuses.forEach(status => {
-                status.textContent = 'Not Departed Yet';
-                status.classList.remove('departed');
-            });
-
-            // Set styles based on progress
-            for (let i = 0; i < progress; i++) {
-                let circle = circles[i];
-                let arrivedStatus = arrivedStatuses[i];
-                let departureStatus = departedStatuses[i];
-
-                arrivedStatus.textContent = 'Arrived';
-                arrivedStatus.classList.add('arrived');
-                departureStatus.textContent = 'Departed';
-                departureStatus.classList.add('departed');
-                circle.style.backgroundColor = 'green';
-            }
-        }
     </script>
 </body>
 

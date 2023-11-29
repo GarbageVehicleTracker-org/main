@@ -9,22 +9,15 @@ body {
 }
 
 :root {
-  /* fonts */
   --font-nunito-sans: "Nunito Sans";
   --font-outfit: Outfit;
 
-  /* font sizes */
-  /* --font-size-xl: 20px; */
-
-  /* Colors */
   --color-white: #fff;
   --color-black: #000;
   --color-forestgreen-100: #4caf50;
-  /* --color-forestgreen-200: rgba(76, 175, 80, 0.1); */
   --color-mainheading: #143A4B;
   --color-para: #7E7E7E;
 
-  /* Border radiuses */
   --br-3xs: 10px;
 }
 

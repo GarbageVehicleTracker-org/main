@@ -60,7 +60,7 @@ h1 {
   user-select: none;
 }
 
-.card-id {
+.card-area {
   color: var(--color-para);
   font-family: var(--font-outfit);
   font-weight: 400;
@@ -73,32 +73,41 @@ h1 {
   justify-content: space-between;
   align-items: center;
   background-color: #EDF7EE;
-  padding: 20px 20px;
+  padding: 30px 30px;
   margin-bottom: 20px;
   border-radius: var(--br-3xs);
 }
 
 select {
-    padding: 5px 15px;
-    border: 2px solid var(--color-forestgreen-100);
-    background: #C5E5C6;
-    border-radius: 5px;
-    color: var(--color-forestgreen-100);
-}
-
-.submit-btn, #addVehicle, #addDriver, #back {
-  width: 150px;
-  height: 45px;
-  background-color: var(--color-forestgreen-100);
-  outline: none;
-  border: none;
-  border-radius: 25px;
-  color: var(--color-white);
-  cursor: pointer;
+  padding: 10px 25px;
+  border: 2px solid var(--color-forestgreen-100);
+  background: #C5E5C6;
+  border-radius: 10px;
+  color: var(--color-forestgreen-100);
+  font-family: var(--font-nunito-sans);
   font-size: medium;
 }
 
-.submit-btn:hover, #addVehicle:hover, #addDriver:hover, #back:hover {
+.submit-btn,
+#addVehicle,
+#addDriver,
+#back {
+  width: 150px;
+  height: 55px;
+  background-color: var(--color-forestgreen-100);
+  outline: none;
+  border: none;
+  border-radius: 35px;
+  color: var(--color-white);
+  cursor: pointer;
+  font-size: medium;
+  font-family: var(--font-nunito-sans);
+}
+
+.submit-btn:hover,
+#addVehicle:hover,
+#addDriver:hover,
+#back:hover {
   background-color: rgba(76, 175, 80, 0.8);
   transition: 0.5s;
 }
@@ -111,4 +120,14 @@ select {
 .add-btn {
   display: flex;
   gap: 20px;
+  font-family: var(--font-nunito-sans);
+}
+
+.card-section {
+  display: flex;
+  flex-direction: row;
+  width: 30%;
+  justify-content: space-evenly;
+  align-items: center;
+  font-family: var(--font-nunito-sans);
 }

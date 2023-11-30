@@ -190,13 +190,12 @@ function fetchMiddleCoordinates(areaId) {
         });
 }
 
-// Function to update the map with middle coordinates
 const updateMiddleCoordinatesMap = (coordinates, vehicleData) => {
     // Get the map element
     const mapElement = document.getElementById('map');
 
-    // Check if the map element exists
-    if (mapElement) {
+    // Check if the map element and Bing Maps API are fully loaded
+    if (mapElement && Microsoft && Microsoft.Maps) {
         // Initialize the map if it doesn't exist
         if (!mapElement.map) {
             mapElement.map = new Microsoft.Maps.Map(mapElement, {
@@ -206,8 +205,11 @@ const updateMiddleCoordinatesMap = (coordinates, vehicleData) => {
             });
         }
 
+        // Convert entities to an array
+        const entitiesArray = Array.from(mapElement.map.entities);
+
         // Clear existing pushpins only if it's the first update
-        if (!mapElement.map.entities.getLength()) {
+        if (!entitiesArray.length) {
             // Add red pushpins for each middle coordinate
             coordinates.forEach(coordinate => {
                 const pushpin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(coordinate.middleCoordinates.latitude, coordinate.middleCoordinates.longitude), {
@@ -219,7 +221,13 @@ const updateMiddleCoordinatesMap = (coordinates, vehicleData) => {
 
         // Create or update the vehicle pushpin based on the API response
         const vehicleLocation = new Microsoft.Maps.Location(vehicleData.latitude, vehicleData.longitude);
-        let vehiclePushpin = mapElement.map.entities.find(entity => entity instanceof Microsoft.Maps.Pushpin);
+        let vehiclePushpin;
+
+        entitiesArray.forEach(entity => {
+            if (entity instanceof Microsoft.Maps.Pushpin) {
+                vehiclePushpin = entity;
+            }
+        });
 
         if (!vehiclePushpin) {
             vehiclePushpin = new Microsoft.Maps.Pushpin(vehicleLocation);
@@ -231,6 +239,7 @@ const updateMiddleCoordinatesMap = (coordinates, vehicleData) => {
         console.log("Middle Coordinates Map Updated");
     }
 };
+
 
 // Fetch and update middle coordinates on map along with vehicle data
 function updateMapAndMiddleCoordinates() {

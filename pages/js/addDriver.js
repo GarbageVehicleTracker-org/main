@@ -1,4 +1,3 @@
-
 function submitForm() {
     // Get form data
     const fullName = document.getElementById('fullName').value;
@@ -6,54 +5,42 @@ function submitForm() {
     const aadharNumber = document.getElementById('aadharNumber').value;
     const gender = document.querySelector('input[name="gender"]:checked');
     const age = document.getElementById('age').value;
-
-    const photographInput = document.getElementById('photographInput');
-    const imageFile = photographInput.files[0];
+    const photographURL = document.getElementById('photographURL').value;
 
     // Check if any required field is empty
-    if (!fullName || !phoneNumber || !aadharNumber || !gender || !age || !imageFile) {
-      alert('Please fill in all required fields and select an image.');
-      return;
+    if (!fullName || !phoneNumber || !aadharNumber || !gender || !age || !photographURL) {
+        alert('Please fill in all required fields.');
+        return;
     }
 
     const selectedGender = gender.value;
 
     // Create data object
-    const formData = new FormData();
-    formData.append('driverId', aadharNumber);
-    formData.append('name', fullName);
-    formData.append('phoneNumbers', phoneNumber);
-    formData.append('age', age);
-    formData.append('gender', selectedGender);
-    formData.append('image', imageFile);
+    const formData = {
+        driverId: aadharNumber,
+        name: fullName,
+        phoneNumbers: phoneNumber,
+        age: age,
+        gender: selectedGender,
+        image: photographURL
+    };
 
-    // Upload the image and get the image URL
-    uploadImage(imageFile)
-      .then(imageURL => {
-        // Append the image URL to the formData
-        formData.append('imageUR', imageURL);
-
-        // Send the formData to the API
-        fetch('https://garbage-collect-backend.onrender.com/send-driver', {
-          method: 'POST',
-          body: formData,
-        })
-          .then(response => response.json())
-          .then(data => {
+    fetch('https://garbage-collect-backend.onrender.com/send-driver', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+    })
+        .then(response => response.json())
+        .then(data => {
             console.log('Success:', data);
-          })
-          .catch(error => {
+        })
+        .catch((error) => {
             console.error('Error:', error);
             console.log('Failed Data:', formData);
-          });
-      })
-      .catch(error => {
-        // Handle image upload error
-        console.error('Image upload error:', error);
-      });
-  }
-
-document.addEventListener('DOMContentLoaded', function() {
+        });
+}
 
 function getCookie(name) {
     var nameEQ = name + "=";
@@ -95,5 +82,3 @@ function redirectToHome() {
 function goBack() {
     window.history.back();
 }
-
-});

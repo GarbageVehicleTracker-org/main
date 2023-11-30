@@ -166,7 +166,7 @@ h2 {
     top: -40px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 99; /* Adjusted z-index to be lower than the .circle */
+    z-index: 99; /* Adjusted z-index to be lower than the .circle 
 } */
 
 

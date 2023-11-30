@@ -120,7 +120,15 @@ window.onload = function () {
     if (!authToken) {
         window.location.href = "../index.html";
     }
+
+    // Fetch and update middle coordinates on map
+    fetchMiddleCoordinates(areaId)
+        .then(coordinates => {
+            updateMiddleCoordinatesMap(coordinates);
+        })
+        .catch(error => console.error('Error fetching middle coordinates:', error));
 };
+
 
 function redirectToHome() {
     window.location.href = 'home.html';
@@ -171,3 +179,51 @@ const updateMap = () => {
 
 // Fetch and update the data every second
 setInterval(updateMap, 1000);
+
+// Function to fetch middle coordinates from the API
+function fetchMiddleCoordinates(areaId) {
+    return fetch(`https://garbage-collect-backend.onrender.com/get-all-dustbins-coords/${areaId}`)
+        .then(response => response.json())
+        .catch(error => {
+            console.error('Error fetching middle coordinates:', error);
+            return [];
+        });
+}
+
+// Function to update the map with middle coordinates
+const updateMiddleCoordinatesMap = (coordinates) => {
+    // Get the map element
+    const mapElement = document.getElementById('map');
+
+    // Check if the map element exists
+    if (mapElement) {
+        // Initialize the map if it doesn't exist
+        if (!mapElement.map) {
+            mapElement.map = new Microsoft.Maps.Map(mapElement, {
+                credentials: apiKey,
+                center: new Microsoft.Maps.Location(coordinates[0].middleCoordinates.latitude, coordinates[0].middleCoordinates.longitude),
+                zoom: 15
+            });
+        }
+
+        // Clear existing pushpins
+        mapElement.map.entities.clear();
+
+        // Add red pushpins for each middle coordinate
+        coordinates.forEach(coordinate => {
+            const pushpin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(coordinate.middleCoordinates.latitude, coordinate.middleCoordinates.longitude), {
+                color: 'red'
+            });
+            mapElement.map.entities.push(pushpin);
+        });
+
+        console.log("Middle Coordinates Map Updated");
+    }
+};
+
+// Fetch and update middle coordinates on map
+fetchMiddleCoordinates(areaId)
+    .then(coordinates => {
+        updateMiddleCoordinatesMap(coordinates);
+    })
+    .catch(error => console.error('Error fetching middle coordinates:', error));

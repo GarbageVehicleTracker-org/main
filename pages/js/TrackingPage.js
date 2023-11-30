@@ -70,6 +70,7 @@ function updateTrackingUI(data) {
 
 // Get areaId from the URL
 const areaId = getQueryParameter('areaId');
+const vehicleId = getQueryParameter('vehicleId');
 
 // Fetch the initial dustbins data
 fetchDustbinsData()
@@ -124,3 +125,49 @@ window.onload = function () {
 function redirectToHome() {
     window.location.href = 'home.html';
 }
+
+
+// Replace YOUR_BING_MAPS_API_KEY with your actual Bing Maps API key
+const apiKey = 'Akg60X7E388oEBNDe_wQNZMX_PmOSpXoWdurv6g5MaTx-R3keu55Rii_5-3UiG0A';
+
+// Function to update the pushpin on the map
+const updateMap = () => {
+    // Fetch data from the provided API
+    fetch(`https://garbage-collect-backend.onrender.com/get/${vehicleId}`)
+        .then(response => response.json())
+        .then(data => {
+            // Get the map element
+            const mapElement = document.getElementById('map');
+
+            // Check if the map element exists
+            if (mapElement) {
+                // Initialize the map if it doesn't exist
+                if (!mapElement.map) {
+                    mapElement.map = new Microsoft.Maps.Map(mapElement, {
+                        credentials: apiKey,
+                        center: new Microsoft.Maps.Location(data.latitude, data.longitude),
+                        zoom: 20
+                    });
+                } else {
+                    // Update the existing map's center
+                    mapElement.map.setView({
+                        center: new Microsoft.Maps.Location(data.latitude, data.longitude)
+                    });
+                }
+
+                // Clear existing pushpins
+                mapElement.map.entities.clear();
+
+                // Create a new pushpin based on the API response
+                const pushpin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(data.latitude, data.longitude));
+                mapElement.map.entities.push(pushpin);
+                console.log("Map Updated")
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+};
+
+// Fetch and update the data every second
+setInterval(updateMap, 1000);

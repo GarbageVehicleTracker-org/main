@@ -178,9 +178,6 @@ const updateMap = () => {
         });
 };
 
-// Fetch and update the data every second
-// setInterval(updateMap, 1000);
-
 // Function to fetch middle coordinates from the API
 function fetchMiddleCoordinates(areaId) {
     return fetch(`https://garbage-collect-backend.onrender.com/get-all-dustbins-coords/${areaId}`)
@@ -241,29 +238,17 @@ const updateMiddleCoordinatesMap = (coordinates, vehicleData) => {
     }
 };
 
-
-// Fetch and update middle coordinates on map along with vehicle data
-function updateMapAndMiddleCoordinates() {
-    fetch(`https://garbage-collect-backend.onrender.com/get/${vehicleId}`)
-        .then(response => response.json())
-        .then(vehicleData => {
-            // Fetch middle coordinates
-            return fetchMiddleCoordinates(areaId)
-                .then(coordinates => {
-                    updateMiddleCoordinatesMap(coordinates, vehicleData);
-                });
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
-}
-
 // Fetch and update the data every second
-setInterval(updateMapAndMiddleCoordinates, 1000);
+setInterval(() => {
+    updateMap();
+    fetchMiddleCoordinates(areaId)
+        .then(coordinates => {
+            updateMiddleCoordinatesMap(coordinates);
+        });
+}, 100000000);
 
 // Initial update
-updateMapAndMiddleCoordinates();
-
+updateMap();
 
 // Fetch and update middle coordinates on map
 fetchMiddleCoordinates(areaId)

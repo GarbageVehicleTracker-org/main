@@ -43,9 +43,10 @@ fetchData(`https://garbage-collect-backend.onrender.com/get-vehicle/${vehicleNo}
 document.getElementById('track-button').addEventListener('click', function () {
     // Extract the area ID from the URL
     const areaId = getQueryParameter('areaId');
+    const vehicleId = getQueryParameter('vehicleNo');
 
     // Redirect to the tracking page with the areaId as a query parameter
-    window.location.href = `TrackingPage.html?areaId=${areaId}`;
+    window.location.href = `TrackingPage.html?areaId=${areaId}&vehicleId=${vehicleId}`;
 });
 function goBack() {
     window.history.back();

@@ -178,7 +178,7 @@ const updateMap = () => {
 };
 
 // Fetch and update the data every second
-setInterval(updateMap, 1000);
+// setInterval(updateMap, 1000);
 
 // Function to fetch middle coordinates from the API
 function fetchMiddleCoordinates(areaId) {
@@ -191,7 +191,7 @@ function fetchMiddleCoordinates(areaId) {
 }
 
 // Function to update the map with middle coordinates
-const updateMiddleCoordinatesMap = (coordinates) => {
+const updateMiddleCoordinatesMap = (coordinates, vehicleData) => {
     // Get the map element
     const mapElement = document.getElementById('map');
 
@@ -206,20 +206,54 @@ const updateMiddleCoordinatesMap = (coordinates) => {
             });
         }
 
-        // Clear existing pushpins
-        mapElement.map.entities.clear();
-
-        // Add red pushpins for each middle coordinate
-        coordinates.forEach(coordinate => {
-            const pushpin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(coordinate.middleCoordinates.latitude, coordinate.middleCoordinates.longitude), {
-                color: 'red'
+        // Clear existing pushpins only if it's the first update
+        if (!mapElement.map.entities.getLength()) {
+            // Add red pushpins for each middle coordinate
+            coordinates.forEach(coordinate => {
+                const pushpin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(coordinate.middleCoordinates.latitude, coordinate.middleCoordinates.longitude), {
+                    color: 'red'
+                });
+                mapElement.map.entities.push(pushpin);
             });
-            mapElement.map.entities.push(pushpin);
-        });
+        }
+
+        // Create or update the vehicle pushpin based on the API response
+        const vehicleLocation = new Microsoft.Maps.Location(vehicleData.latitude, vehicleData.longitude);
+        let vehiclePushpin = mapElement.map.entities.find(entity => entity instanceof Microsoft.Maps.Pushpin);
+
+        if (!vehiclePushpin) {
+            vehiclePushpin = new Microsoft.Maps.Pushpin(vehicleLocation);
+            mapElement.map.entities.push(vehiclePushpin);
+        } else {
+            vehiclePushpin.setLocation(vehicleLocation);
+        }
 
         console.log("Middle Coordinates Map Updated");
     }
 };
+
+// Fetch and update middle coordinates on map along with vehicle data
+function updateMapAndMiddleCoordinates() {
+    fetch(`https://garbage-collect-backend.onrender.com/get/${vehicleId}`)
+        .then(response => response.json())
+        .then(vehicleData => {
+            // Fetch middle coordinates
+            return fetchMiddleCoordinates(areaId)
+                .then(coordinates => {
+                    updateMiddleCoordinatesMap(coordinates, vehicleData);
+                });
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+}
+
+// Fetch and update the data every second
+setInterval(updateMapAndMiddleCoordinates, 1000);
+
+// Initial update
+updateMapAndMiddleCoordinates();
+
 
 // Fetch and update middle coordinates on map
 fetchMiddleCoordinates(areaId)

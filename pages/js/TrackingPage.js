@@ -32,7 +32,7 @@ function updateTrackingUI(data) {
             let statusContainer = document.createElement('div');
             statusContainer.className = 'status';
 
-            let arrivedStatus = document.createElement('span');
+            let arrivedStatus = document.createElement('p');
             arrivedStatus.className = 'arrived';
 
             if (dustbin.isVisited) {
@@ -49,7 +49,7 @@ function updateTrackingUI(data) {
             // Create circle element
             let circle = document.createElement('div');
             circle.className = 'circle';
-            circle.style.backgroundColor = dustbin.isVisited ? '#4CAF50' : 'gray';
+            circle.style.backgroundColor = dustbin.isVisited ? '#4CAF50' : 'rgb(161, 161, 161)';
 
             // Append status and circle elements to the card
             card.appendChild(statusContainer);

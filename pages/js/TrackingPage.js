@@ -156,20 +156,21 @@ const updateMap = () => {
                         center: new Microsoft.Maps.Location(data.latitude, data.longitude),
                         zoom: 20
                     });
+
+                    // Create a new pushpin based on the API response
+                    mapElement.vehiclePushpin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(data.latitude, data.longitude));
+                    mapElement.map.entities.push(mapElement.vehiclePushpin);
                 } else {
                     // Update the existing map's center
                     mapElement.map.setView({
                         center: new Microsoft.Maps.Location(data.latitude, data.longitude)
                     });
+
+                    // Update the vehicle pushpin location
+                    mapElement.vehiclePushpin.setLocation(new Microsoft.Maps.Location(data.latitude, data.longitude));
                 }
 
-                // Clear existing pushpins
-                mapElement.map.entities.clear();
-
-                // Create a new pushpin based on the API response
-                const pushpin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(data.latitude, data.longitude));
-                mapElement.map.entities.push(pushpin);
-                console.log("Map Updated")
+                console.log("Map Updated");
             }
         })
         .catch(error => {

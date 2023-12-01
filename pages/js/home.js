@@ -10,13 +10,20 @@ fetch('https://garbage-collect-backend.onrender.com/get-all-assigned-work')
         fetch('https://garbage-collect-backend.onrender.com/get-driver')
             .then(response => response.json())
             .then(driverData => {
-                for (let i = 0; i < areaCount; i++) {
+                // Fetch area data from the third API
+                fetch('https://garbage-collect-backend.onrender.com/get-all-areas')
+                    .then(response => response.json())
+                    .then(areaData => {
+                        for (let i = 0; i < areaCount; i++) {
                     // Create a new driver section
                     let driverSection = document.createElement('section');
                     driverSection.classList.add('drivers');
 
                     // Find the corresponding driver data using driverId
                     let correspondingDriver = driverData.find(driver => driver.driverId === data[i].driverId);
+
+                    // Find the corresponding area data using areaId
+                    let correspondingArea = areaData.find(area => area.areaId === data[i].areaId);
 
                     if (correspondingDriver) {
                         // Create an image element
@@ -36,9 +43,13 @@ fetch('https://garbage-collect-backend.onrender.com/get-all-assigned-work')
                         let p2 = document.createElement('p');
                         p2.textContent = `Driver: ${correspondingDriver.name}`;
 
+                        let p3 = document.createElement('p');
+                        p3.textContent = `Area: ${correspondingArea.name}`;
+
                         // Append paragraphs to driver info div
                         driverInfoDiv.appendChild(p1);
                         driverInfoDiv.appendChild(p2);
+                        driverInfoDiv.appendChild(p3);
 
                         // Create a button element
                         let showBtn = document.createElement('button');
@@ -76,6 +87,8 @@ fetch('https://garbage-collect-backend.onrender.com/get-all-assigned-work')
                         profilesSection.appendChild(driverSection);
                     }
                 }
+            })
+            .catch(error => console.error('Error fetching area data:', error));
             })
             .catch(error => console.error('Error fetching driver data:', error));
     })
